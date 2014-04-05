@@ -83,8 +83,8 @@ namespace ColorMatrixViewer
 			if (RefreshMatrixOrTextBoxes(RefreshDirection.FromTextboxes) || force)
 			{
 				displayed = Util.ApplyColorMatrix(input, Matrix);
+				imageDiff1.SetImages(input, displayed);
 			}
-			imageDiff1.SetImages(input, displayed);
 		}
 
 		private void ResetMatrix()
@@ -165,7 +165,7 @@ namespace ColorMatrixViewer
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
 					input = displayed = (Bitmap)Bitmap.FromFile(dialog.FileName);
-					ApplyMatrix();
+					ApplyMatrix(force: true);
 				}
 			}
 		}
