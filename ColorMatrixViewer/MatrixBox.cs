@@ -82,10 +82,13 @@ namespace ColorMatrixViewer
 							IsUndoRedoTextChange = true;
 							action.TextBox.Text = action.Text;
 							IsUndoRedoTextChange = false;
+							action.TextBox.Focus();
 							action.TextBox.SelectAll();
 							//add a redo action
 							RedoStack.Push(new UndoAction(action.TextBox, redoText));
 						}
+						e.Handled = true;
+						e.SuppressKeyPress = true;
 						break;
 					case Keys.Y:
 						if (RedoStack.Count > 0)
@@ -95,9 +98,12 @@ namespace ColorMatrixViewer
 							IsUndoRedoTextChange = true;
 							action.TextBox.Text = action.Text;
 							IsUndoRedoTextChange = false;
+							action.TextBox.Focus();
 							action.TextBox.SelectAll();
 							UndoStack.Push(new UndoAction(action.TextBox, undoText));
 						}
+						e.Handled = true;
+						e.SuppressKeyPress = true;
 						break;
 				}
 			}
