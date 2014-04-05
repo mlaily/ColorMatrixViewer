@@ -38,6 +38,7 @@ namespace ColorMatrixViewer
 				return new UndoAction(textbox, "");
 			}
 		}
+		private bool IsUndoRedoTextChange = false;
 		private Stack<UndoAction> UndoStack = new Stack<UndoAction>();
 		private Stack<UndoAction> RedoStack = new Stack<UndoAction>();
 
@@ -74,21 +75,28 @@ namespace ColorMatrixViewer
 						if (UndoStack.Count > 0)
 						{
 							//remove current action
-							var currentAction = UndoStack.Pop();
-							RedoStack.Push(currentAction);
-							bool noMoreAction = UndoStack.Count == 0;
-							//then get the previous action
-							var action = noMoreAction ? UndoAction.GetEmptyAction(currentAction.TextBox) : UndoStack.Pop();
+							var action = UndoStack.Pop();
+							//save the text
+							var redoText = action.TextBox.Text;
+							//indicate that the next text changed event must not create an undo action
+							IsUndoRedoTextChange = true;
 							action.TextBox.Text = action.Text;
+							IsUndoRedoTextChange = false;
 							action.TextBox.SelectAll();
+							//add a redo action
+							RedoStack.Push(new UndoAction(action.TextBox, redoText));
 						}
 						break;
 					case Keys.Y:
 						if (RedoStack.Count > 0)
 						{
 							var action = RedoStack.Pop();
+							var undoText = action.TextBox.Text;
+							IsUndoRedoTextChange = true;
 							action.TextBox.Text = action.Text;
+							IsUndoRedoTextChange = false;
 							action.TextBox.SelectAll();
+							UndoStack.Push(new UndoAction(action.TextBox, undoText));
 						}
 						break;
 				}
@@ -109,12 +117,17 @@ namespace ColorMatrixViewer
 					newTextBox.Width = 50;
 					newTextBox.Height = 20;
 					newTextBox.TextAlign = HorizontalAlignment.Center;
+					newTextBox.Tag = ""; //will always contain the previous text before a text changed event
 					newTextBox.KeyDown += MatrixBox_KeyDown;
 					newTextBox.KeyPress += (o, e) => { if (e.KeyChar == ',') { e.Handled = true; newTextBox.SelectedText = "."; } };
 					newTextBox.TextChanged += (o, e) =>
 					{
 						newTextBox.ClearUndo();
-						if (newTextBox.Text != "") UndoStack.Push(new UndoAction(newTextBox, newTextBox.Text));
+						if (!IsUndoRedoTextChange)
+						{
+							UndoStack.Push(new UndoAction(newTextBox, (string)newTextBox.Tag));
+							newTextBox.Tag = newTextBox.Text;
+						}
 						OnMatrixChanged();
 					};
 					newTextBox.MouseWheel += (o, e) =>
