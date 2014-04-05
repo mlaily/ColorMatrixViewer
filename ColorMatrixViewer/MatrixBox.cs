@@ -125,6 +125,7 @@ namespace ColorMatrixViewer
 						newTextBox.ClearUndo();
 						if (!IsUndoRedoTextChange)
 						{
+							RedoStack.Clear(); //any user change reset the redo stack
 							UndoStack.Push(new UndoAction(newTextBox, (string)newTextBox.Tag));
 							newTextBox.Tag = newTextBox.Text;
 						}
