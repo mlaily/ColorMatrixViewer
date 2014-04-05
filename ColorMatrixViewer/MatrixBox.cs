@@ -22,6 +22,25 @@ namespace ColorMatrixViewer
 
 		private TextBox[,] textboxes;
 
+		private struct UndoAction
+		{
+			public TextBox TextBox { get; private set; }
+			public string Text { get; private set; }
+			public UndoAction(TextBox textBox, string text)
+				: this()
+			{
+				this.TextBox = textBox;
+				this.Text = text;
+			}
+
+			public static UndoAction GetEmptyAction(TextBox textbox)
+			{
+				return new UndoAction(textbox, "");
+			}
+		}
+		private Stack<UndoAction> UndoStack = new Stack<UndoAction>();
+		private Stack<UndoAction> RedoStack = new Stack<UndoAction>();
+
 		public event EventHandler MatrixChanged;
 		protected void OnMatrixChanged()
 		{
@@ -42,6 +61,38 @@ namespace ColorMatrixViewer
 			: base()
 		{
 			InitializeMatrixTextboxes(this, new Point(0, 0));
+			this.KeyDown += MatrixBox_KeyDown;
+		}
+
+		void MatrixBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control)
+			{
+				switch (e.KeyCode)
+				{
+					case Keys.Z:
+						if (UndoStack.Count > 0)
+						{
+							//remove current action
+							var currentAction = UndoStack.Pop();
+							RedoStack.Push(currentAction);
+							bool noMoreAction = UndoStack.Count == 0;
+							//then get the previous action
+							var action = noMoreAction ? UndoAction.GetEmptyAction(currentAction.TextBox) : UndoStack.Pop();
+							action.TextBox.Text = action.Text;
+							action.TextBox.SelectAll();
+						}
+						break;
+					case Keys.Y:
+						if (RedoStack.Count > 0)
+						{
+							var action = RedoStack.Pop();
+							action.TextBox.Text = action.Text;
+							action.TextBox.SelectAll();
+						}
+						break;
+				}
+			}
 		}
 
 		private void InitializeMatrixTextboxes(Control control, Point location)
@@ -58,8 +109,14 @@ namespace ColorMatrixViewer
 					newTextBox.Width = 50;
 					newTextBox.Height = 20;
 					newTextBox.TextAlign = HorizontalAlignment.Center;
+					newTextBox.KeyDown += MatrixBox_KeyDown;
 					newTextBox.KeyPress += (o, e) => { if (e.KeyChar == ',') { e.Handled = true; newTextBox.SelectedText = "."; } };
-					newTextBox.TextChanged += (o, e) => { newTextBox.ClearUndo(); OnMatrixChanged(); };
+					newTextBox.TextChanged += (o, e) =>
+					{
+						newTextBox.ClearUndo();
+						if (newTextBox.Text != "") UndoStack.Push(new UndoAction(newTextBox, newTextBox.Text));
+						OnMatrixChanged();
+					};
 					newTextBox.MouseWheel += (o, e) =>
 					{
 						decimal parsed = 0; //decimal type for exact decimal rounding
