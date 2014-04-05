@@ -62,9 +62,11 @@ namespace ColorMatrixViewer
 					{
 						if (autoRefresh)
 						{
-							RefreshMatrixOrTextBoxes(RefreshDirection.FromTextboxes);
-							displayed = ApplyColorMatrix(input, Matrix);
-							imageDiff1.SetImages(input, displayed);
+							if (RefreshMatrixOrTextBoxes(RefreshDirection.FromTextboxes))
+							{
+								displayed = ApplyColorMatrix(input, Matrix);
+								imageDiff1.SetImages(input, displayed);
+							}
 						}
 					};
 					newTextBox.MouseWheel += (o, e) =>
@@ -104,9 +106,13 @@ namespace ColorMatrixViewer
 			FromMatrix,
 			FromTextboxes,
 		}
-		private void RefreshMatrixOrTextBoxes(RefreshDirection direction)
+		/// <summary>
+		/// Returns true if any change was actually made
+		/// </summary>
+		private bool RefreshMatrixOrTextBoxes(RefreshDirection direction)
 		{
 			autoRefresh = false;
+			bool different = false;
 			switch (direction)
 			{
 				case RefreshDirection.FromMatrix:
@@ -114,7 +120,12 @@ namespace ColorMatrixViewer
 					{
 						for (int j = 0; j < 5; j++)
 						{
-							textboxes[i, j].Text = Matrix[i, j].ToString();
+							string text = Matrix[i, j].ToString();
+							if (textboxes[i, j].Text != text)
+							{
+								textboxes[i, j].Text = text;
+								different = true;
+							}
 						}
 					}
 					break;
@@ -125,7 +136,12 @@ namespace ColorMatrixViewer
 						{
 							for (int j = 0; j < 5; j++)
 							{
-								Matrix[i, j] = float.Parse(textboxes[i, j].Text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture);
+								float parsed = float.Parse(textboxes[i, j].Text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture);
+								if (Matrix[i, j] != parsed)
+								{
+									Matrix[i, j] = parsed;
+									different = true;
+								}
 							}
 						}
 					}
@@ -139,6 +155,7 @@ namespace ColorMatrixViewer
 					throw new Exception("Fuck you!");
 			}
 			autoRefresh = true;
+			return different;
 		}
 
 		private void loadAnImageToolStripMenuItem_Click(object sender, EventArgs e)
