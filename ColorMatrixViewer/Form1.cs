@@ -80,7 +80,7 @@ namespace ColorMatrixViewer
 							increment = .1m;
 						}
 						parsed += increment * (e.Delta / (Math.Abs(e.Delta)));
-						newTextBox.Text = parsed.ToString(System.Globalization.CultureInfo.InvariantCulture);
+						newTextBox.Text = parsed.ToString("g10", System.Globalization.CultureInfo.InvariantCulture);
 					};
 					textboxes[j, i] = newTextBox;
 				}
