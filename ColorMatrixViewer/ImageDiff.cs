@@ -122,7 +122,7 @@ namespace ColorMatrixViewer
 			if (e.Button == System.Windows.Forms.MouseButtons.None) return;
 
 			double x = e.X;//, y = e.Y;
-			if (ActualImageLocation == null) return;
+			if (ActualImageLocation == null || ActualImageLocation.Width == 0) return;
 			else
 			{
 				x -= ActualImageLocation.X;

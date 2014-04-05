@@ -85,7 +85,6 @@
 			this.applyMatrixToolStripMenuItem.Name = "applyMatrixToolStripMenuItem";
 			this.applyMatrixToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.applyMatrixToolStripMenuItem.Text = "Apply Matrix";
-			this.applyMatrixToolStripMenuItem.Click += new System.EventHandler(this.applyMatrixToolStripMenuItem_Click);
 			// 
 			// imageDiff1
 			// 
@@ -95,7 +94,6 @@
 			this.imageDiff1.Location = new System.Drawing.Point(317, 24);
 			this.imageDiff1.Name = "imageDiff1";
 			this.imageDiff1.Size = new System.Drawing.Size(515, 397);
-			this.imageDiff1.SplitterPosition = 0.5D;
 			this.imageDiff1.TabIndex = 1;
 			this.imageDiff1.TabStop = false;
 			// 

@@ -18,11 +18,11 @@ namespace ColorMatrixViewer
 		private Bitmap displayed;
 
 		private static readonly float[,] identity = new float[,] {
-			{  1.0f,  0.0f,  0.0f,  0.0f,  0.0f },
-			{  0.0f,  1.0f,  0.0f,  0.0f,  0.0f },
+			{  1.0f,  0.0f, 0.0f,  0.0f,  0.0f },
+			{  0.0f,  1.0f, 0.0f,  0.0f,  0.0f },
 			{  0.0f,  0.0f, 1.0f,  0.0f,  0.0f },
-			{  0.0f,  0.0f,  0.0f,  1.0f,  0.0f },
-			{  0.0f,  0.0f,  0.0f,  0.0f,  1.0f }
+			{  0.0f,  0.0f, 0.0f,  1.0f,  0.0f },
+			{  0.0f,  0.0f, 0.0f,  0.0f,  1.0f }
 		};
 
 		private float[,] _Matrix = null;
@@ -33,6 +33,7 @@ namespace ColorMatrixViewer
 		}
 
 		private TextBox[,] textboxes;
+		private bool autoRefresh = true;
 
 		public Form1()
 		{
@@ -57,6 +58,15 @@ namespace ColorMatrixViewer
 					newTextBox.Height = 20;
 					newTextBox.TextAlign = HorizontalAlignment.Center;
 					newTextBox.KeyPress += (o, e) => { if (e.KeyChar == ',') { e.Handled = true; newTextBox.SelectedText = "."; } };
+					newTextBox.TextChanged += (o, e) =>
+					{
+						if (autoRefresh)
+						{
+							RefreshMatrixOrTextBoxes(RefreshDirection.FromTextboxes);
+							displayed = ApplyColorMatrix(input, Matrix);
+							imageDiff1.SetImages(input, displayed);
+						}
+					};
 					newTextBox.MouseWheel += (o, e) =>
 					{
 						decimal parsed = 0; //exact decimal rounding
@@ -77,6 +87,7 @@ namespace ColorMatrixViewer
 
 		private void ResetMatrix()
 		{
+			autoRefresh = false;
 			Matrix = new float[5, 5];
 			for (int i = 0; i < Matrix.GetLength(0); i++)
 			{
@@ -85,6 +96,7 @@ namespace ColorMatrixViewer
 					Matrix[i, j] = identity[i, j];
 				}
 			}
+			autoRefresh = true;
 		}
 
 		enum RefreshDirection
@@ -94,6 +106,7 @@ namespace ColorMatrixViewer
 		}
 		private void RefreshMatrixOrTextBoxes(RefreshDirection direction)
 		{
+			autoRefresh = false;
 			switch (direction)
 			{
 				case RefreshDirection.FromMatrix:
@@ -125,7 +138,7 @@ namespace ColorMatrixViewer
 				default:
 					throw new Exception("Fuck you!");
 			}
-
+			autoRefresh = true;
 		}
 
 		private void loadAnImageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -143,39 +156,6 @@ namespace ColorMatrixViewer
 		{
 			ResetMatrix();
 			RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
-		}
-
-		private void applyMatrixToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			RefreshMatrixOrTextBoxes(RefreshDirection.FromTextboxes);
-			displayed = ApplyColorMatrix(input, Matrix);
-			imageDiff1.SetImages(input, displayed);
-			return;
-			Bitmap b = input;
-			Rectangle rect = new Rectangle(0, 0, b.Width, b.Height);
-			System.Drawing.Imaging.BitmapData bmpData = b.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, b.PixelFormat);
-			IntPtr ptr = bmpData.Scan0;
-			int bytes = Math.Abs(bmpData.Stride) * b.Height;
-			byte[] rgbValues = new byte[bytes];
-			System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes);
-
-			float[,] pixel = new float[1, 5] { { 0, 0, 0, 0, 1 } };
-			for (int i = 0; i < rgbValues.Length; i += 3)
-			{
-				pixel[0, 0] = rgbValues[i + 2] / 255f; //r
-				pixel[0, 1] = rgbValues[i + 1] / 255f; //g
-				pixel[0, 2] = rgbValues[i + 0] / 255f; //b
-				var newPixel = Util.Multiply(pixel, Matrix);
-				rgbValues[i + 2] = (byte)Math.Round(newPixel[0, 0] * 255f);
-				rgbValues[i + 1] = (byte)Math.Round(newPixel[0, 1] * 255f);
-				rgbValues[i + 0] = (byte)Math.Round(newPixel[0, 2] * 255f);
-			}
-			System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
-			b.UnlockBits(bmpData);
-			this.Invalidate();
-			//displayed = b;
-
-			//this.BackgroundImage = displayed;
 		}
 
 		private static Bitmap ApplyColorMatrix(Image original, float[,] colorMatrix)
