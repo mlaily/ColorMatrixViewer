@@ -33,7 +33,6 @@
 			this.loadAnImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.applyMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -67,8 +66,7 @@
 			// editToolStripMenuItem
 			// 
 			this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetMatrixToolStripMenuItem,
-            this.applyMatrixToolStripMenuItem});
+            this.resetMatrixToolStripMenuItem});
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
 			this.editToolStripMenuItem.Text = "Edit";
@@ -76,15 +74,9 @@
 			// resetMatrixToolStripMenuItem
 			// 
 			this.resetMatrixToolStripMenuItem.Name = "resetMatrixToolStripMenuItem";
-			this.resetMatrixToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.resetMatrixToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.resetMatrixToolStripMenuItem.Text = "Reset Matrix";
 			this.resetMatrixToolStripMenuItem.Click += new System.EventHandler(this.resetMatrixToolStripMenuItem_Click);
-			// 
-			// applyMatrixToolStripMenuItem
-			// 
-			this.applyMatrixToolStripMenuItem.Name = "applyMatrixToolStripMenuItem";
-			this.applyMatrixToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-			this.applyMatrixToolStripMenuItem.Text = "Apply Matrix";
 			// 
 			// imageDiff1
 			// 
@@ -94,6 +86,7 @@
 			this.imageDiff1.Location = new System.Drawing.Point(317, 24);
 			this.imageDiff1.Name = "imageDiff1";
 			this.imageDiff1.Size = new System.Drawing.Size(515, 397);
+			this.imageDiff1.SplitterPosition = 0.5D;
 			this.imageDiff1.TabIndex = 1;
 			this.imageDiff1.TabStop = false;
 			// 
@@ -122,7 +115,6 @@
 		private System.Windows.Forms.ToolStripMenuItem loadAnImageToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem resetMatrixToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem applyMatrixToolStripMenuItem;
 		private ImageDiff imageDiff1;
 	}
 }

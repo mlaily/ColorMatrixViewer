@@ -58,17 +58,7 @@ namespace ColorMatrixViewer
 					newTextBox.Height = 20;
 					newTextBox.TextAlign = HorizontalAlignment.Center;
 					newTextBox.KeyPress += (o, e) => { if (e.KeyChar == ',') { e.Handled = true; newTextBox.SelectedText = "."; } };
-					newTextBox.TextChanged += (o, e) =>
-					{
-						if (autoRefresh)
-						{
-							if (RefreshMatrixOrTextBoxes(RefreshDirection.FromTextboxes))
-							{
-								displayed = ApplyColorMatrix(input, Matrix);
-								imageDiff1.SetImages(input, displayed);
-							}
-						}
-					};
+					newTextBox.TextChanged += (o, e) => { if (autoRefresh) ApplyMatrix(); };
 					newTextBox.MouseWheel += (o, e) =>
 					{
 						decimal parsed = 0; //exact decimal rounding
@@ -85,6 +75,16 @@ namespace ColorMatrixViewer
 					textboxes[j, i] = newTextBox;
 				}
 			}
+		}
+
+		private void ApplyMatrix(bool force = false)
+		{
+			if (input == null) return;
+			if (RefreshMatrixOrTextBoxes(RefreshDirection.FromTextboxes) || force)
+			{
+				displayed = Util.ApplyColorMatrix(input, Matrix);
+			}
+			imageDiff1.SetImages(input, displayed);
 		}
 
 		private void ResetMatrix()
@@ -164,7 +164,8 @@ namespace ColorMatrixViewer
 			{
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					this.imageDiff1.SetImages(input = displayed = (Bitmap)Bitmap.FromFile(dialog.FileName));
+					input = displayed = (Bitmap)Bitmap.FromFile(dialog.FileName);
+					ApplyMatrix();
 				}
 			}
 		}
@@ -173,28 +174,8 @@ namespace ColorMatrixViewer
 		{
 			ResetMatrix();
 			RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
+			ApplyMatrix(force: true);
 		}
-
-		private static Bitmap ApplyColorMatrix(Image original, float[,] colorMatrix)
-		{
-			Bitmap bmp = new Bitmap(original.Width, original.Height);
-
-			ColorMatrix matrix = new ColorMatrix(Util.ToJaggedArrays(colorMatrix));
-
-			using (var attributes = new ImageAttributes())
-			{
-				//Attach matrix to image attributes
-				attributes.SetColorMatrix(matrix);
-				using (var g = Graphics.FromImage(bmp))
-				{
-					g.DrawImage(original,
-						new Rectangle(0, 0, original.Width, original.Height),
-						0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
-				}
-			}
-			return bmp;
-		}
-
 
 	}
 }

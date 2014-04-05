@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -145,6 +147,26 @@ namespace ColorMatrixViewer
 			}
 
 			return result;
+		}
+
+		public static Bitmap ApplyColorMatrix(Image original, float[,] colorMatrix)
+		{
+			Bitmap bmp = new Bitmap(original.Width, original.Height);
+
+			ColorMatrix matrix = new ColorMatrix(Util.ToJaggedArrays(colorMatrix));
+
+			using (var attributes = new ImageAttributes())
+			{
+				//Attach matrix to image attributes
+				attributes.SetColorMatrix(matrix);
+				using (var g = Graphics.FromImage(bmp))
+				{
+					g.DrawImage(original,
+						new Rectangle(0, 0, original.Width, original.Height),
+						0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
+				}
+			}
+			return bmp;
 		}
 	}
 }
