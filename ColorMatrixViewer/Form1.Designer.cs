@@ -33,6 +33,7 @@
 			this.loadAnImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.matrixBox1 = new ColorMatrixViewer.MatrixBox();
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -74,9 +75,18 @@
 			// resetMatrixToolStripMenuItem
 			// 
 			this.resetMatrixToolStripMenuItem.Name = "resetMatrixToolStripMenuItem";
-			this.resetMatrixToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.resetMatrixToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
 			this.resetMatrixToolStripMenuItem.Text = "Reset Matrix";
 			this.resetMatrixToolStripMenuItem.Click += new System.EventHandler(this.resetMatrixToolStripMenuItem_Click);
+			// 
+			// matrixBox1
+			// 
+			this.matrixBox1.Location = new System.Drawing.Point(32, 67);
+			this.matrixBox1.Matrix = null;
+			this.matrixBox1.Name = "matrixBox1";
+			this.matrixBox1.Size = new System.Drawing.Size(238, 88);
+			this.matrixBox1.TabIndex = 2;
+			this.matrixBox1.Text = "matrixBox1";
 			// 
 			// imageDiff1
 			// 
@@ -96,6 +106,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
 			this.ClientSize = new System.Drawing.Size(832, 421);
+			this.Controls.Add(this.matrixBox1);
 			this.Controls.Add(this.imageDiff1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
@@ -116,6 +127,7 @@
 		private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem resetMatrixToolStripMenuItem;
 		private ImageDiff imageDiff1;
+		private MatrixBox matrixBox1;
 	}
 }
 
