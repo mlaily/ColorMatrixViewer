@@ -34,6 +34,7 @@
 			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -44,7 +45,7 @@
             this.editToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(926, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(832, 24);
 			this.menuStrip1.TabIndex = 0;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -75,23 +76,36 @@
 			// resetMatrixToolStripMenuItem
 			// 
 			this.resetMatrixToolStripMenuItem.Name = "resetMatrixToolStripMenuItem";
-			this.resetMatrixToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.resetMatrixToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.resetMatrixToolStripMenuItem.Text = "Reset Matrix";
 			this.resetMatrixToolStripMenuItem.Click += new System.EventHandler(this.resetMatrixToolStripMenuItem_Click);
 			// 
 			// applyMatrixToolStripMenuItem
 			// 
 			this.applyMatrixToolStripMenuItem.Name = "applyMatrixToolStripMenuItem";
-			this.applyMatrixToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.applyMatrixToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.applyMatrixToolStripMenuItem.Text = "Apply Matrix";
 			this.applyMatrixToolStripMenuItem.Click += new System.EventHandler(this.applyMatrixToolStripMenuItem_Click);
+			// 
+			// imageDiff1
+			// 
+			this.imageDiff1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.imageDiff1.Location = new System.Drawing.Point(317, 24);
+			this.imageDiff1.Name = "imageDiff1";
+			this.imageDiff1.Size = new System.Drawing.Size(515, 397);
+			this.imageDiff1.SplitterPosition = 0.5D;
+			this.imageDiff1.TabIndex = 1;
+			this.imageDiff1.TabStop = false;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.ClientSize = new System.Drawing.Size(926, 582);
+			this.ClientSize = new System.Drawing.Size(832, 421);
+			this.Controls.Add(this.imageDiff1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
@@ -111,6 +125,7 @@
 		private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem resetMatrixToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem applyMatrixToolStripMenuItem;
+		private ImageDiff imageDiff1;
 	}
 }
 

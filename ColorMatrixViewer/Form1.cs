@@ -134,7 +134,7 @@ namespace ColorMatrixViewer
 			{
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					this.BackgroundImage = input = displayed = (Bitmap)Bitmap.FromFile(dialog.FileName);
+					this.imageDiff1.SetImages(input = displayed = (Bitmap)Bitmap.FromFile(dialog.FileName));
 				}
 			}
 		}
@@ -148,9 +148,8 @@ namespace ColorMatrixViewer
 		private void applyMatrixToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			RefreshMatrixOrTextBoxes(RefreshDirection.FromTextboxes);
-
-			input = ApplyColorMatrix(input, Matrix);
-			this.BackgroundImage = input;
+			displayed = ApplyColorMatrix(input, Matrix);
+			imageDiff1.SetImages(input, displayed);
 			return;
 			Bitmap b = input;
 			Rectangle rect = new Rectangle(0, 0, b.Width, b.Height);
