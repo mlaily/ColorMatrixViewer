@@ -125,7 +125,7 @@ namespace ColorMatrixViewer
 				{
 					var newTextBox = new TextBox();
 					newTextBox.Parent = control;
-					newTextBox.Location = new Point(location.X + i * xSpacing, location.Y + j * ySpacing);
+					newTextBox.Location = new Point(location.X + j * xSpacing, location.Y + i * ySpacing);
 					newTextBox.Width = 50;
 					newTextBox.Height = 20;
 					newTextBox.TextAlign = HorizontalAlignment.Center;
