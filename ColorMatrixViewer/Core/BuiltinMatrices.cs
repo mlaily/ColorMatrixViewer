@@ -72,7 +72,7 @@ namespace ColorMatrixViewer
 				{  0.0f,  0.0f,  0.0f,  1.0f,  0.0f },
 				{  0.0f,  0.0f,  0.0f,  0.0f,  1.0f }
 			};
-			NegativeGrayScale = Util.Multiply(Negative, GrayScale);
+			NegativeGrayScale = Transform.Multiply(Negative, GrayScale);
 			Red = new float[,] {
 				{  1.0f,  0.0f,  0.0f,  0.0f,  0.0f },
 				{  0.0f,  0.0f,  0.0f,  0.0f,  0.0f },
@@ -80,8 +80,8 @@ namespace ColorMatrixViewer
 				{  0.0f,  0.0f,  0.0f,  1.0f,  0.0f },
 				{  0.0f,  0.0f,  0.0f,  0.0f,  1.0f }
 			};
-			Red = Util.Multiply(GrayScale, Red);
-			NegativeRed = Util.Multiply(NegativeGrayScale, Red);
+			Red = Transform.Multiply(GrayScale, Red);
+			NegativeRed = Transform.Multiply(NegativeGrayScale, Red);
 			Sepia = new float[,] {
 				{ .393f, .349f, .272f, 0.0f, 0.0f},
 				{ .769f, .686f, .534f, 0.0f, 0.0f},
@@ -89,7 +89,7 @@ namespace ColorMatrixViewer
 				{  0.0f,  0.0f,  0.0f, 1.0f, 0.0f},
 				{  0.0f,  0.0f,  0.0f, 0.0f, 1.0f}
 			};
-			NegativeSepia = Util.Multiply(Negative, Sepia);
+			NegativeSepia = Transform.Multiply(Negative, Sepia);
 			HueShift180 = new float[,] {
 				{ -0.3333333f,  0.6666667f,  0.6666667f, 0.0f, 0.0f },
 				{  0.6666667f, -0.3333333f,  0.6666667f, 0.0f, 0.0f },
@@ -97,7 +97,7 @@ namespace ColorMatrixViewer
 				{  0.0f,              0.0f,        0.0f, 1.0f, 0.0f },
 				{  0.0f,              0.0f,        0.0f, 0.0f, 1.0f }
 			};
-			NegativeHueShift180 = Util.Multiply(Negative, HueShift180);
+			NegativeHueShift180 = Transform.Multiply(Negative, HueShift180);
 			NegativeHueShift180Variation1 = new float[,] {
 				//most simple working method for shifting hue 180deg.
 				{  1.0f, -1.0f, -1.0f, 0.0f, 0.0f },
