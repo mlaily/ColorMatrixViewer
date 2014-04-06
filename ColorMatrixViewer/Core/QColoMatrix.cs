@@ -24,7 +24,7 @@ using System.Runtime.CompilerServices;
 // mailto:sjaak@sjaakpriester.nl
 
 
-namespace ShomreiTorah.WinForms
+namespace ColorMatrixViewer
 {
 	///<summary>A functional replacement for the standard GDI+ ColorMatrix class.</summary>
 	public class QColorMatrix
