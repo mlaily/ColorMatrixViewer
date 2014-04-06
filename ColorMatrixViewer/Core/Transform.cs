@@ -28,27 +28,6 @@ namespace ColorMatrixViewer
 			return c;
 		}
 
-		public static float[,] MoreBlue(float[,] colorMatrix)
-		{
-			float[,] temp = (float[,])colorMatrix.Clone();
-			temp[2, 4] += 0.1f;//or remove 0.1 off the red
-			return temp;
-		}
-
-		public static float[,] MoreGreen(float[,] colorMatrix)
-		{
-			float[,] temp = (float[,])colorMatrix.Clone();
-			temp[1, 4] += 0.1f;
-			return temp;
-		}
-
-		public static float[,] MoreRed(float[,] colorMatrix)
-		{
-			float[,] temp = (float[,])colorMatrix.Clone();
-			temp[0, 4] += 0.1f;
-			return temp;
-		}
-
 		public static List<float[,]> Interpolate(float[,] A, float[,] B)
 		{
 			const int STEPS = 10;
