@@ -14,28 +14,23 @@ namespace ColorMatrixViewer
 	public partial class Form1 : Form
 	{
 
-		private Bitmap input;
-		private Bitmap displayed;
-
-	
-
-		private bool autoRefresh = true;
-
 		public Form1()
 		{
-			//ResetMatrix();
 			InitializeComponent();
-			//RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
+			matrixBox1.MatrixChanged += matrixBox1_MatrixChanged;
 		}
 
-		private void ApplyMatrix(bool force = false)
+		void matrixBox1_MatrixChanged(object sender, EventArgs e)
 		{
-			if (input == null) return;
-			//if (RefreshMatrixOrTextBoxes(RefreshDirection.FromTextboxes) || force)
-			//{
-			//	displayed = Util.ApplyColorMatrix(input, Matrix);
-			//	imageDiff1.SetImages(input, displayed);
-			//}
+			ApplyMatrix();
+		}
+
+		private void ApplyMatrix()
+		{
+			if (imageDiff1.FirstImage != null)
+			{
+				imageDiff1.SetImages(second: Util.ApplyColorMatrix(imageDiff1.FirstImage, matrixBox1.Matrix));
+			}
 		}
 
 		private void loadAnImageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -44,17 +39,16 @@ namespace ColorMatrixViewer
 			{
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					input = displayed = (Bitmap)Bitmap.FromFile(dialog.FileName);
-					ApplyMatrix(force: true);
+					imageDiff1.SetImages(Bitmap.FromFile(dialog.FileName));
+					ApplyMatrix();
 				}
 			}
 		}
 
 		private void resetMatrixToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//ResetMatrix();
-			//RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
-			ApplyMatrix(force: true);
+			matrixBox1.ResetMatrix();
+			ApplyMatrix();
 		}
 
 	}

@@ -17,27 +17,30 @@ namespace ColorMatrixViewer
 		public float[,] Matrix
 		{
 			get { return _Matrix; }
-			set { _Matrix = value; }
+			private set
+			{
+				_Matrix = value;
+				RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
+			}
 		}
 
 		private TextBox[,] textboxes;
+
+		private bool suspendAutoRefresh = false;
 
 		private struct UndoAction
 		{
 			public TextBox TextBox { get; private set; }
 			public string Text { get; private set; }
+
 			public UndoAction(TextBox textBox, string text)
 				: this()
 			{
 				this.TextBox = textBox;
 				this.Text = text;
 			}
-
-			public static UndoAction GetEmptyAction(TextBox textbox)
-			{
-				return new UndoAction(textbox, "");
-			}
 		}
+
 		private bool IsUndoRedoTextChange = false;
 		private Stack<UndoAction> UndoStack = new Stack<UndoAction>();
 		private Stack<UndoAction> RedoStack = new Stack<UndoAction>();
@@ -52,6 +55,7 @@ namespace ColorMatrixViewer
 			}
 		}
 
+		//magic numbers, from trial and error...
 		protected override Size DefaultSize { get { return new Size(238, 88); } }
 		protected override Size DefaultMaximumSize { get { return DefaultSize; } }
 		protected override Size DefaultMinimumSize { get { return DefaultSize; } }
@@ -62,6 +66,7 @@ namespace ColorMatrixViewer
 			: base()
 		{
 			InitializeMatrixTextboxes(this, new Point(0, 0));
+			ResetMatrix();
 			this.KeyDown += MatrixBox_KeyDown;
 		}
 
@@ -111,6 +116,7 @@ namespace ColorMatrixViewer
 
 		private void InitializeMatrixTextboxes(Control control, Point location)
 		{
+			this.suspendAutoRefresh = true;
 			textboxes = new TextBox[5, 5];
 			const int xSpacing = 47, ySpacing = 17;
 			for (int i = 0; i < 5; i++)
@@ -126,6 +132,8 @@ namespace ColorMatrixViewer
 					newTextBox.Tag = ""; //will always contain the previous text before a text changed event
 					newTextBox.KeyDown += MatrixBox_KeyDown;
 					newTextBox.KeyPress += (o, e) => { if (e.KeyChar == ',') { e.Handled = true; newTextBox.SelectedText = "."; } };
+					//Capture the i and j variables for the closure to work correctly...
+					int iCopy = i, jCopy = j;
 					newTextBox.TextChanged += (o, e) =>
 					{
 						newTextBox.ClearUndo();
@@ -135,12 +143,21 @@ namespace ColorMatrixViewer
 							UndoStack.Push(new UndoAction(newTextBox, (string)newTextBox.Tag));
 							newTextBox.Tag = newTextBox.Text;
 						}
-						OnMatrixChanged();
+						if (!this.suspendAutoRefresh)
+						{
+							//try to refresh the corresponding matrix cell
+							if (RefreshMatrix(iCopy, jCopy, throwsException: false))
+							{
+								OnMatrixChanged();
+							}
+						}
 					};
 					newTextBox.MouseWheel += (o, e) =>
 					{
 						decimal parsed = 0; //decimal type for exact decimal rounding
-						if (!decimal.TryParse(newTextBox.Text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out parsed))
+						if (!decimal.TryParse(newTextBox.Text,
+							System.Globalization.NumberStyles.Float,
+							System.Globalization.CultureInfo.InvariantCulture, out parsed))
 							parsed = 0;
 						decimal increment = 1;
 						if (ModifierKeys == Keys.Control)
@@ -151,14 +168,18 @@ namespace ColorMatrixViewer
 						//10 significan figures
 						newTextBox.Text = parsed.ToString("g10", System.Globalization.CultureInfo.InvariantCulture);
 					};
-					textboxes[j, i] = newTextBox;
+					textboxes[i, j] = newTextBox;
 				}
 			}
+			this.suspendAutoRefresh = false;
 		}
 
-		private void ResetMatrix()
+		/// <summary>
+		/// Reset the matrix to the identity matrix
+		/// </summary>
+		public void ResetMatrix()
 		{
-			//autoRefresh = false;
+			this.suspendAutoRefresh = true;
 			Matrix = new float[5, 5];
 			for (int i = 0; i < Matrix.GetLength(0); i++)
 			{
@@ -167,11 +188,48 @@ namespace ColorMatrixViewer
 					Matrix[i, j] = BuiltinMatrices.Identity[i, j];
 				}
 			}
-			//autoRefresh = true;
+			RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
+			this.suspendAutoRefresh = false;
 		}
 
+		public void SetMatrix(float[,] matrix)
+		{
+			if (matrix == null)
+			{
+				throw new ArgumentNullException("matrix");
+			}
+			if (matrix.GetLength(0) != 5 || matrix.GetLength(1) != 5)
+			{
+				throw new ArgumentException("The matrix must be a 5x5 matrix!", "matrix");
+			}
+			this.suspendAutoRefresh = true;
+			for (int i = 0; i < Matrix.GetLength(0); i++)
+			{
+				for (int j = 0; j < Matrix.GetLength(1); j++)
+				{
+					Matrix[i, j] = matrix[i, j];
+				}
+			}
+			RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
+			this.suspendAutoRefresh = false;
+		}
 
-		enum RefreshDirection
+		public float this[int i, int j]
+		{
+			set
+			{
+				if (i >= 5 || j >= 5)
+				{
+					throw new IndexOutOfRangeException("i or j was less than 0 or greater than 4!");
+				}
+				this.suspendAutoRefresh = true;
+				Matrix[i, j] = value;
+				RefreshTextBox(i, j);
+				this.suspendAutoRefresh = false;
+			}
+		}
+
+		private enum RefreshDirection
 		{
 			FromMatrix,
 			FromTextboxes,
@@ -181,51 +239,85 @@ namespace ColorMatrixViewer
 		/// </summary>
 		private bool RefreshMatrixOrTextBoxes(RefreshDirection direction)
 		{
-			//autoRefresh = false;
+			this.suspendAutoRefresh = true;
 			bool different = false;
-			switch (direction)
+			for (int i = 0; i < 5; i++)
 			{
-				case RefreshDirection.FromMatrix:
-					for (int i = 0; i < 5; i++)
+				for (int j = 0; j < 5; j++)
+				{
+					bool result = false;
+					switch (direction)
 					{
-						for (int j = 0; j < 5; j++)
-						{
-							string text = Matrix[i, j].ToString();
-							if (textboxes[i, j].Text != text)
+						case RefreshDirection.FromMatrix:
+							result = RefreshTextBox(i, j);
+							break;
+						case RefreshDirection.FromTextboxes:
+							try
 							{
-								textboxes[i, j].Text = text;
-								different = true;
+								result = RefreshMatrix(i, j);
 							}
-						}
-					}
-					break;
-				case RefreshDirection.FromTextboxes:
-					try
-					{
-						for (int i = 0; i < 5; i++)
-						{
-							for (int j = 0; j < 5; j++)
+							catch (Exception)
 							{
-								float parsed = float.Parse(textboxes[i, j].Text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture);
-								if (Matrix[i, j] != parsed)
-								{
-									Matrix[i, j] = parsed;
-									different = true;
-								}
+								//ResetMatrix();
+								throw new Exception("Invalid matrix!");
 							}
-						}
+							break;
+						default:
+							throw new Exception("Fuck you!");
 					}
-					catch (Exception)
-					{
-						//ResetMatrix();
-						MessageBox.Show("Invalid matrix!");
-					}
-					break;
-				default:
-					throw new Exception("Fuck you!");
+					if (result) different = true;
+				}
 			}
-			//autoRefresh = true;
+			this.suspendAutoRefresh = false;
 			return different;
+		}
+
+		/// <summary>
+		/// Refresh a single text box.
+		/// Returns true if any change was actually made
+		/// </summary>
+		private bool RefreshTextBox(int i, int j)
+		{
+			string text = Matrix[i, j].ToString();
+			if (textboxes[i, j].Text != text)
+			{
+				textboxes[i, j].Text = text;
+				return true;
+			}
+			return false;
+		}
+		/// <summary>
+		/// Refresh a single matrix cell from the corresponding text box.
+		/// Returns true if any change was actually made.
+		/// If throwsException is false and the textbox value cannot be parsed, the procedure is aborted and false is returned.
+		/// </summary>
+		private bool RefreshMatrix(int i, int j, bool throwsException = true)
+		{
+			float parsed;
+			if (throwsException)
+			{
+				parsed = float.Parse(textboxes[i, j].Text,
+									System.Globalization.NumberStyles.Float,
+									System.Globalization.CultureInfo.InvariantCulture);
+			}
+			else
+			{
+				if (!float.TryParse(textboxes[i, j].Text,
+									System.Globalization.NumberStyles.Float,
+									System.Globalization.CultureInfo.InvariantCulture,
+									out parsed))
+				{
+					//on error, do not update the matrix!
+					return false;
+				}
+			}
+
+			if (Matrix[i, j] != parsed)
+			{
+				Matrix[i, j] = parsed;
+				return true;
+			}
+			return false;
 		}
 
 	}

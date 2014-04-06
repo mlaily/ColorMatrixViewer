@@ -82,7 +82,6 @@
 			// matrixBox1
 			// 
 			this.matrixBox1.Location = new System.Drawing.Point(32, 67);
-			this.matrixBox1.Matrix = null;
 			this.matrixBox1.Name = "matrixBox1";
 			this.matrixBox1.Size = new System.Drawing.Size(238, 88);
 			this.matrixBox1.TabIndex = 2;
