@@ -97,20 +97,20 @@ namespace ColorMatrixViewer
 				//the smallest of the two so that the image always fits
 				double ratio = widthRatio <= heightRatio ? widthRatio : heightRatio;
 
-				int width = (int)Math.Round(ratio * imageWidth);
-				int height = (int)Math.Round(ratio * imageHeight);
+				int width = Round(ratio * imageWidth);
+				int height = Round(ratio * imageHeight);
 
 				//center the image
-				int x = (int)Math.Round((thisWidth - width) / 2f);
-				int y = (int)Math.Round((thisHeight - height) / 2f);
+				int x = Round((thisWidth - width) / 2f);
+				int y = Round((thisHeight - height) / 2f);
 
 				ActualImageLocation = new Rectangle(x, y, width, height);
 
-				var firstSrcRect = new Rectangle(0, 0, (int)Math.Round(imageWidth * this.SplitterPosition), imageHeight);
-				var firstDestRect = new Rectangle(x, y, (int)Math.Round(width * this.SplitterPosition), height);
+				var firstSrcRect = new Rectangle(0, 0, Round(imageWidth * this.SplitterPosition), imageHeight);
+				var firstDestRect = new Rectangle(x, y, Round(width * this.SplitterPosition), height);
 
-				var secondSrcRect = new Rectangle(firstSrcRect.Width, 0, imageWidth - (int)Math.Round(imageWidth * this.SplitterPosition), imageHeight);
-				var secondDestRect = new Rectangle(x + firstDestRect.Width, y, width - (int)Math.Round(width * this.SplitterPosition), height);
+				var secondSrcRect = new Rectangle(firstSrcRect.Width, 0, imageWidth - Round(imageWidth * this.SplitterPosition), imageHeight);
+				var secondDestRect = new Rectangle(x + firstDestRect.Width, y, width - Round(width * this.SplitterPosition), height);
 
 				e.Graphics.DrawImage(this.FirstImage, firstDestRect, firstSrcRect, GraphicsUnit.Pixel);
 				e.Graphics.DrawImage(this.SecondImage, secondDestRect, secondSrcRect, GraphicsUnit.Pixel);
@@ -129,6 +129,11 @@ namespace ColorMatrixViewer
 			}
 
 			this.SplitterPosition = x / ActualImageLocation.Width;
+		}
+
+		private static int Round(double d)
+		{
+			return (int)Math.Round(d, MidpointRounding.AwayFromZero);
 		}
 
 	}
