@@ -50,8 +50,18 @@ namespace ColorMatrixViewer
 		{
 			if (imageDiff.FirstImage != null)
 			{
-				imageDiff.SetImages(second: Util.ApplyColorMatrix(imageDiff.FirstImage, BuiltinMatrices.Negative));
+				imageDiff.SetImages(second: Util.ApplyColorMatrix(imageDiff.FirstImage, matrixBox.Matrix));
 			}
+		}
+
+		private void matrixBox_MatrixChanged(object sender, EventArgs e)
+		{
+			ApplyMatrix();
+		}
+
+		private void GridSplitter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			tabControlColumn.Width = new GridLength(258);
 		}
 
 	}

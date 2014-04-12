@@ -4,13 +4,32 @@
 		Title="MainWindow" Height="350" Width="525"
 		xmlns:local="clr-namespace:ColorMatrixViewer">
 	<Grid>
-		<WindowsFormsHost>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition x:Name="tabControlColumn" Width="258"/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+
+		<TabControl Grid.Column="0">
+			<TabItem Header="Combine">
+
+			</TabItem>
+			<TabItem Header="Edit">
+				<WindowsFormsHost>
+					<local:MatrixBox x:Name="matrixBox" MatrixChanged="matrixBox_MatrixChanged"/>
+				</WindowsFormsHost>
+			</TabItem>
+		</TabControl>
+
+		<GridSplitter Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Width="5" MouseDoubleClick="GridSplitter_MouseDoubleClick"/>
+
+		<WindowsFormsHost Grid.Column="1">
 			<WindowsFormsHost.ContextMenu>
 				<ContextMenu x:Name="imageDiffContextMenu">
 					<MenuItem Header="Load an image..." Click="MenuItem_Click"/>
 				</ContextMenu>
 			</WindowsFormsHost.ContextMenu>
-			<local:ImageDiff x:Name="imageDiff" MouseDown="imageDiff_MouseDown" />
+			<local:ImageDiff x:Name="imageDiff" MouseDown="imageDiff_MouseDown"/>
 		</WindowsFormsHost>
+
 	</Grid>
 </Window>
