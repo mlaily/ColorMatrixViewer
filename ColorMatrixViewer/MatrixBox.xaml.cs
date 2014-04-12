@@ -106,46 +106,46 @@ namespace ColorMatrixViewer
 
 		void MatrixBox_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (true)
-			{
-				switch (e.Key)
-				{
-					case Key.Z:
-						if (UndoStack.Count > 0)
-						{
-							//remove current action
-							var action = UndoStack.Pop();
-							//save the text
-							var redoText = action.TextBox.Text;
-							//indicate that the next text changed event must not create an undo action
-							IsUndoRedoTextChange = true;
-							action.TextBox.Text = action.Text;
-							IsUndoRedoTextChange = false;
-							action.TextBox.Focus();
-							action.TextBox.SelectAll();
-							//add a redo action
-							RedoStack.Push(new UndoAction(action.TextBox, redoText));
-						}
-						e.Handled = true;
-						//e.SuppressKeyPress = true;
-						break;
-					case Key.Y:
-						if (RedoStack.Count > 0)
-						{
-							var action = RedoStack.Pop();
-							var undoText = action.TextBox.Text;
-							IsUndoRedoTextChange = true;
-							action.TextBox.Text = action.Text;
-							IsUndoRedoTextChange = false;
-							action.TextBox.Focus();
-							action.TextBox.SelectAll();
-							UndoStack.Push(new UndoAction(action.TextBox, undoText));
-						}
-						e.Handled = true;
-						//e.SuppressKeyPress = true;
-						break;
-				}
-			}
+			//if (true) //todo: check for ctl modifier
+			//{
+			//	switch (e.Key)
+			//	{
+			//		case Key.Z:
+			//			if (UndoStack.Count > 0)
+			//			{
+			//				//remove current action
+			//				var action = UndoStack.Pop();
+			//				//save the text
+			//				var redoText = action.TextBox.Text;
+			//				//indicate that the next text changed event must not create an undo action
+			//				IsUndoRedoTextChange = true;
+			//				action.TextBox.Text = action.Text;
+			//				IsUndoRedoTextChange = false;
+			//				action.TextBox.Focus();
+			//				action.TextBox.SelectAll();
+			//				//add a redo action
+			//				RedoStack.Push(new UndoAction(action.TextBox, redoText));
+			//			}
+			//			e.Handled = true;
+			//			//e.SuppressKeyPress = true;
+			//			break;
+			//		case Key.Y:
+			//			if (RedoStack.Count > 0)
+			//			{
+			//				var action = RedoStack.Pop();
+			//				var undoText = action.TextBox.Text;
+			//				IsUndoRedoTextChange = true;
+			//				action.TextBox.Text = action.Text;
+			//				IsUndoRedoTextChange = false;
+			//				action.TextBox.Focus();
+			//				action.TextBox.SelectAll();
+			//				UndoStack.Push(new UndoAction(action.TextBox, undoText));
+			//			}
+			//			e.Handled = true;
+			//			//e.SuppressKeyPress = true;
+			//			break;
+			//	}
+			//}
 		}
 
 		private void InitializeMatrixTextboxes(Control control, Point location)
@@ -167,7 +167,7 @@ namespace ColorMatrixViewer
 					newTextBox.KeyDown += MatrixBox_KeyDown;
 					newTextBox.TextChanged += (o, e) =>
 					{
-						//if (e. == ",") { e.Handled = true; /*e = ".";*/ } 
+						//if (e.whatever == ",") { e.Handled = true; /*e = ".";*/ } 
 					};
 					//Capture the i and j variables for the closure to work correctly...
 					int iCopy = i, jCopy = j;
