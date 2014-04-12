@@ -34,7 +34,19 @@ namespace ColorMatrixViewer
 		{
 			if (imageDiff1.FirstImage != null)
 			{
-				imageDiff1.SetImages(second: Util.ApplyColorMatrix(imageDiff1.FirstImage, matrixBox1.Matrix));
+				var finalMatrix = new float[5,5];
+				for (int i = 0; i < 5; i++)
+				{
+					for (int j = 0; j < 5; j++)
+					{
+						finalMatrix[i, j] = BuiltinMatrices.Identity[i, j];
+					}
+				}
+				foreach (MatrixBox matrixControl in tableLayoutPanel1.Controls)
+				{
+					finalMatrix = Transform.Multiply(finalMatrix, matrixControl.Matrix);
+				}
+				imageDiff1.SetImages(second: Util.ApplyColorMatrix(imageDiff1.FirstImage, finalMatrix));
 			}
 		}
 
@@ -58,7 +70,9 @@ namespace ColorMatrixViewer
 
 		private void AddMatrixBtn_Click(object sender, EventArgs e)
 		{
-			tableLayoutPanel1.Controls.Add(new MatrixBox());
+			var newMatrix = new MatrixBox();
+			newMatrix.MatrixChanged += matrixBox1_MatrixChanged;
+			tableLayoutPanel1.Controls.Add(newMatrix);
 		}
 
 		private void removeMatrixBtn_Click(object sender, EventArgs e)
@@ -66,6 +80,7 @@ namespace ColorMatrixViewer
 			var last = tableLayoutPanel1.Controls[tableLayoutPanel1.Controls.Count - 1];
 			if (last != matrixBox1)
 			{
+				last.MarginChanged -= matrixBox1_MatrixChanged;
 				tableLayoutPanel1.Controls.Remove(last);
 			}
 		}
