@@ -31,19 +31,17 @@
 			this.components = new System.ComponentModel.Container();
 			this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.loadAnImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.combineTabPage = new System.Windows.Forms.TabPage();
-			this.editTabPage = new System.Windows.Forms.TabPage();
-			this.matrixBox1 = new ColorMatrixViewer.MatrixBox();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.removeMatrixBtn = new System.Windows.Forms.Button();
+			this.AddMatrixBtn = new System.Windows.Forms.Button();
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
+			this.matrixBox1 = new ColorMatrixViewer.MatrixBox();
 			this.imageContextMenu.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-			this.splitContainer1.Panel1.SuspendLayout();
-			this.splitContainer1.Panel2.SuspendLayout();
-			this.splitContainer1.SuspendLayout();
-			this.tabControl1.SuspendLayout();
-			this.editTabPage.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
+			this.panel1.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// imageContextMenu
@@ -61,78 +59,83 @@
 			this.loadAnImageToolStripMenuItem.Text = "Load an image...";
 			this.loadAnImageToolStripMenuItem.Click += new System.EventHandler(this.loadAnImageToolStripMenuItem_Click);
 			// 
-			// splitContainer1
+			// tableLayoutPanel1
 			// 
-			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer1.Name = "splitContainer1";
+			this.tableLayoutPanel1.AutoScroll = true;
+			this.tableLayoutPanel1.AutoSize = true;
+			this.tableLayoutPanel1.ColumnCount = 1;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Controls.Add(this.matrixBox1, 0, 0);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			this.tableLayoutPanel1.MinimumSize = new System.Drawing.Size(260, 0);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 1;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(260, 321);
+			this.tableLayoutPanel1.TabIndex = 3;
+			this.tableLayoutPanel1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.tableLayoutPanel1_Scroll);
+			this.tableLayoutPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseClick);
 			// 
-			// splitContainer1.Panel1
+			// panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+			this.panel1.Controls.Add(this.tableLayoutPanel1);
+			this.panel1.Controls.Add(this.panel2);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.panel1.Location = new System.Drawing.Point(0, 0);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(260, 421);
+			this.panel1.TabIndex = 4;
 			// 
-			// splitContainer1.Panel2
+			// panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.imageDiff1);
-			this.splitContainer1.Size = new System.Drawing.Size(832, 421);
-			this.splitContainer1.SplitterDistance = 258;
-			this.splitContainer1.SplitterWidth = 8;
-			this.splitContainer1.TabIndex = 3;
-			this.splitContainer1.DoubleClick += new System.EventHandler(this.splitContainer1_DoubleClick);
+			this.panel2.Controls.Add(this.removeMatrixBtn);
+			this.panel2.Controls.Add(this.AddMatrixBtn);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.panel2.Location = new System.Drawing.Point(0, 321);
+			this.panel2.MinimumSize = new System.Drawing.Size(0, 50);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(260, 100);
+			this.panel2.TabIndex = 4;
 			// 
-			// tabControl1
+			// removeMatrixBtn
 			// 
-			this.tabControl1.Controls.Add(this.combineTabPage);
-			this.tabControl1.Controls.Add(this.editTabPage);
-			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl1.Location = new System.Drawing.Point(0, 0);
-			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(258, 421);
-			this.tabControl1.TabIndex = 3;
+			this.removeMatrixBtn.Location = new System.Drawing.Point(130, 24);
+			this.removeMatrixBtn.Name = "removeMatrixBtn";
+			this.removeMatrixBtn.Size = new System.Drawing.Size(75, 23);
+			this.removeMatrixBtn.TabIndex = 1;
+			this.removeMatrixBtn.Text = "Remove";
+			this.removeMatrixBtn.UseVisualStyleBackColor = true;
+			this.removeMatrixBtn.Click += new System.EventHandler(this.removeMatrixBtn_Click);
 			// 
-			// combineTabPage
+			// AddMatrixBtn
 			// 
-			this.combineTabPage.Location = new System.Drawing.Point(4, 22);
-			this.combineTabPage.Name = "combineTabPage";
-			this.combineTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.combineTabPage.Size = new System.Drawing.Size(250, 395);
-			this.combineTabPage.TabIndex = 1;
-			this.combineTabPage.Text = "Combine";
-			this.combineTabPage.UseVisualStyleBackColor = true;
-			// 
-			// editTabPage
-			// 
-			this.editTabPage.Controls.Add(this.matrixBox1);
-			this.editTabPage.Location = new System.Drawing.Point(4, 22);
-			this.editTabPage.Name = "editTabPage";
-			this.editTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.editTabPage.Size = new System.Drawing.Size(250, 395);
-			this.editTabPage.TabIndex = 0;
-			this.editTabPage.Text = "Edit";
-			this.editTabPage.UseVisualStyleBackColor = true;
-			// 
-			// matrixBox1
-			// 
-			this.matrixBox1.Location = new System.Drawing.Point(6, 6);
-			this.matrixBox1.Name = "matrixBox1";
-			this.matrixBox1.Size = new System.Drawing.Size(238, 88);
-			this.matrixBox1.TabIndex = 2;
-			this.matrixBox1.Text = "matrixBox1";
+			this.AddMatrixBtn.Location = new System.Drawing.Point(38, 24);
+			this.AddMatrixBtn.Name = "AddMatrixBtn";
+			this.AddMatrixBtn.Size = new System.Drawing.Size(75, 23);
+			this.AddMatrixBtn.TabIndex = 0;
+			this.AddMatrixBtn.Text = "Add";
+			this.AddMatrixBtn.UseVisualStyleBackColor = true;
+			this.AddMatrixBtn.Click += new System.EventHandler(this.AddMatrixBtn_Click);
 			// 
 			// imageDiff1
 			// 
-			this.imageDiff1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.imageDiff1.ContextMenuStrip = this.imageContextMenu;
-			this.imageDiff1.Location = new System.Drawing.Point(0, 20);
+			this.imageDiff1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.imageDiff1.Location = new System.Drawing.Point(260, 0);
 			this.imageDiff1.Name = "imageDiff1";
-			this.imageDiff1.Size = new System.Drawing.Size(558, 401);
+			this.imageDiff1.Size = new System.Drawing.Size(572, 421);
 			this.imageDiff1.SplitterPosition = 0.5D;
 			this.imageDiff1.TabIndex = 1;
 			this.imageDiff1.TabStop = false;
+			// 
+			// matrixBox1
+			// 
+			this.matrixBox1.Location = new System.Drawing.Point(3, 3);
+			this.matrixBox1.Name = "matrixBox1";
+			this.matrixBox1.Size = new System.Drawing.Size(238, 88);
+			this.matrixBox1.TabIndex = 0;
+			this.matrixBox1.Text = "matrixBox1";
 			// 
 			// Form1
 			// 
@@ -140,16 +143,15 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
 			this.ClientSize = new System.Drawing.Size(832, 421);
-			this.Controls.Add(this.splitContainer1);
+			this.Controls.Add(this.imageDiff1);
+			this.Controls.Add(this.panel1);
 			this.Name = "Form1";
 			this.Text = "ColorMatrix Viewer";
 			this.imageContextMenu.ResumeLayout(false);
-			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-			this.splitContainer1.ResumeLayout(false);
-			this.tabControl1.ResumeLayout(false);
-			this.editTabPage.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
+			this.panel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -157,13 +159,14 @@
 		#endregion
 
 		private ImageDiff imageDiff1;
-		private MatrixBox matrixBox1;
-		private System.Windows.Forms.SplitContainer splitContainer1;
-		private System.Windows.Forms.TabControl tabControl1;
-		private System.Windows.Forms.TabPage editTabPage;
-		private System.Windows.Forms.TabPage combineTabPage;
 		private System.Windows.Forms.ContextMenuStrip imageContextMenu;
 		private System.Windows.Forms.ToolStripMenuItem loadAnImageToolStripMenuItem;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private MatrixBox matrixBox1;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.Button removeMatrixBtn;
+		private System.Windows.Forms.Button AddMatrixBtn;
 	}
 }
 

@@ -17,7 +17,11 @@ namespace ColorMatrixViewer
 		public Form1()
 		{
 			InitializeComponent();
-			editTabPage.Enabled = false;
+			tableLayoutPanel1.RowCount = 0;
+			tableLayoutPanel1.RowStyles.Clear();
+			//http://stackoverflow.com/questions/2197452/how-to-disable-horizontal-scrollbar-for-table-panel-in-winforms
+			tableLayoutPanel1.Padding = new Padding(0, 0, SystemInformation.VerticalScrollBarWidth, 0);
+
 			matrixBox1.MatrixChanged += matrixBox1_MatrixChanged;
 		}
 
@@ -52,10 +56,35 @@ namespace ColorMatrixViewer
 			ApplyMatrix();
 		}
 
-		private void splitContainer1_DoubleClick(object sender, EventArgs e)
+		private void AddMatrixBtn_Click(object sender, EventArgs e)
 		{
-			splitContainer1.SplitterDistance = 258; //250 + the tab page margins or whatever...
+			tableLayoutPanel1.Controls.Add(new MatrixBox());
 		}
+
+		private void removeMatrixBtn_Click(object sender, EventArgs e)
+		{
+			var last = tableLayoutPanel1.Controls[tableLayoutPanel1.Controls.Count - 1];
+			if (last != matrixBox1)
+			{
+				tableLayoutPanel1.Controls.Remove(last);
+			}
+		}
+
+		private void tableLayoutPanel1_MouseClick(object sender, MouseEventArgs e)
+		{
+			ForceMatrixListFocus();
+		}
+		private void tableLayoutPanel1_Scroll(object sender, ScrollEventArgs e)
+		{
+			ForceMatrixListFocus();
+		}
+
+		private void ForceMatrixListFocus()
+		{
+			tableLayoutPanel1.Focus();
+
+		}
+
 
 	}
 }
