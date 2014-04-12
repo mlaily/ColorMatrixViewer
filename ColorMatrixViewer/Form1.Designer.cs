@@ -28,34 +28,31 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.components = new System.ComponentModel.Container();
+			this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.loadAnImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.resetMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.combineTabPage = new System.Windows.Forms.TabPage();
+			this.editTabPage = new System.Windows.Forms.TabPage();
 			this.matrixBox1 = new ColorMatrixViewer.MatrixBox();
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
-			this.menuStrip1.SuspendLayout();
+			this.imageContextMenu.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
+			this.tabControl1.SuspendLayout();
+			this.editTabPage.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// menuStrip1
+			// imageContextMenu
 			// 
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.editToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(832, 24);
-			this.menuStrip1.TabIndex = 0;
-			this.menuStrip1.Text = "menuStrip1";
-			// 
-			// fileToolStripMenuItem
-			// 
-			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.imageContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadAnImageToolStripMenuItem});
-			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-			this.fileToolStripMenuItem.Text = "File";
+			this.imageContextMenu.Name = "imageContextMenu";
+			this.imageContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.imageContextMenu.Size = new System.Drawing.Size(162, 26);
 			// 
 			// loadAnImageToolStripMenuItem
 			// 
@@ -64,24 +61,61 @@
 			this.loadAnImageToolStripMenuItem.Text = "Load an image...";
 			this.loadAnImageToolStripMenuItem.Click += new System.EventHandler(this.loadAnImageToolStripMenuItem_Click);
 			// 
-			// editToolStripMenuItem
+			// splitContainer1
 			// 
-			this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetMatrixToolStripMenuItem});
-			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-			this.editToolStripMenuItem.Text = "Edit";
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer1.Name = "splitContainer1";
 			// 
-			// resetMatrixToolStripMenuItem
+			// splitContainer1.Panel1
 			// 
-			this.resetMatrixToolStripMenuItem.Name = "resetMatrixToolStripMenuItem";
-			this.resetMatrixToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-			this.resetMatrixToolStripMenuItem.Text = "Reset Matrix";
-			this.resetMatrixToolStripMenuItem.Click += new System.EventHandler(this.resetMatrixToolStripMenuItem_Click);
+			this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.imageDiff1);
+			this.splitContainer1.Size = new System.Drawing.Size(832, 421);
+			this.splitContainer1.SplitterDistance = 258;
+			this.splitContainer1.SplitterWidth = 8;
+			this.splitContainer1.TabIndex = 3;
+			this.splitContainer1.DoubleClick += new System.EventHandler(this.splitContainer1_DoubleClick);
+			// 
+			// tabControl1
+			// 
+			this.tabControl1.Controls.Add(this.combineTabPage);
+			this.tabControl1.Controls.Add(this.editTabPage);
+			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControl1.Location = new System.Drawing.Point(0, 0);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.Size = new System.Drawing.Size(258, 421);
+			this.tabControl1.TabIndex = 3;
+			// 
+			// combineTabPage
+			// 
+			this.combineTabPage.Location = new System.Drawing.Point(4, 22);
+			this.combineTabPage.Name = "combineTabPage";
+			this.combineTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.combineTabPage.Size = new System.Drawing.Size(250, 395);
+			this.combineTabPage.TabIndex = 1;
+			this.combineTabPage.Text = "Combine";
+			this.combineTabPage.UseVisualStyleBackColor = true;
+			// 
+			// editTabPage
+			// 
+			this.editTabPage.Controls.Add(this.matrixBox1);
+			this.editTabPage.Location = new System.Drawing.Point(4, 22);
+			this.editTabPage.Name = "editTabPage";
+			this.editTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.editTabPage.Size = new System.Drawing.Size(250, 395);
+			this.editTabPage.TabIndex = 0;
+			this.editTabPage.Text = "Edit";
+			this.editTabPage.UseVisualStyleBackColor = true;
 			// 
 			// matrixBox1
 			// 
-			this.matrixBox1.Location = new System.Drawing.Point(32, 67);
+			this.matrixBox1.Location = new System.Drawing.Point(6, 6);
 			this.matrixBox1.Name = "matrixBox1";
 			this.matrixBox1.Size = new System.Drawing.Size(238, 88);
 			this.matrixBox1.TabIndex = 2;
@@ -92,9 +126,10 @@
 			this.imageDiff1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.imageDiff1.Location = new System.Drawing.Point(317, 24);
+			this.imageDiff1.ContextMenuStrip = this.imageContextMenu;
+			this.imageDiff1.Location = new System.Drawing.Point(0, 20);
 			this.imageDiff1.Name = "imageDiff1";
-			this.imageDiff1.Size = new System.Drawing.Size(515, 397);
+			this.imageDiff1.Size = new System.Drawing.Size(558, 401);
 			this.imageDiff1.SplitterPosition = 0.5D;
 			this.imageDiff1.TabIndex = 1;
 			this.imageDiff1.TabStop = false;
@@ -105,28 +140,30 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
 			this.ClientSize = new System.Drawing.Size(832, 421);
-			this.Controls.Add(this.matrixBox1);
-			this.Controls.Add(this.imageDiff1);
-			this.Controls.Add(this.menuStrip1);
-			this.MainMenuStrip = this.menuStrip1;
+			this.Controls.Add(this.splitContainer1);
 			this.Name = "Form1";
 			this.Text = "ColorMatrix Viewer";
-			this.menuStrip1.ResumeLayout(false);
-			this.menuStrip1.PerformLayout();
+			this.imageContextMenu.ResumeLayout(false);
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+			this.splitContainer1.ResumeLayout(false);
+			this.tabControl1.ResumeLayout(false);
+			this.editTabPage.ResumeLayout(false);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.MenuStrip menuStrip1;
-		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem loadAnImageToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem resetMatrixToolStripMenuItem;
 		private ImageDiff imageDiff1;
 		private MatrixBox matrixBox1;
+		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage editTabPage;
+		private System.Windows.Forms.TabPage combineTabPage;
+		private System.Windows.Forms.ContextMenuStrip imageContextMenu;
+		private System.Windows.Forms.ToolStripMenuItem loadAnImageToolStripMenuItem;
 	}
 }
 

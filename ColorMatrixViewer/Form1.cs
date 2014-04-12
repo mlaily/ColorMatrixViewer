@@ -17,6 +17,7 @@ namespace ColorMatrixViewer
 		public Form1()
 		{
 			InitializeComponent();
+			editTabPage.Enabled = false;
 			matrixBox1.MatrixChanged += matrixBox1_MatrixChanged;
 		}
 
@@ -49,6 +50,11 @@ namespace ColorMatrixViewer
 		{
 			matrixBox1.ResetMatrix();
 			ApplyMatrix();
+		}
+
+		private void splitContainer1_DoubleClick(object sender, EventArgs e)
+		{
+			splitContainer1.SplitterDistance = 258; //250 + the tab page margins or whatever...
 		}
 
 	}
