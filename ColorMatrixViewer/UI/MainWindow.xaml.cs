@@ -50,7 +50,7 @@ namespace ColorMatrixViewer
 		{
 			if (imageDiff.FirstImage != null)
 			{
-				imageDiff.SetImages(second: Util.ApplyColorMatrix(imageDiff.FirstImage, matrixBox.Matrix));
+				//imageDiff.SetImages(second: Util.ApplyColorMatrix(imageDiff.FirstImage, matrixBox.Matrix));
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace ColorMatrixViewer
 
 		private void GridSplitter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			tabControlColumn.Width = new GridLength(258);
+			leftColumn.Width = new GridLength(258);
 		}
 
 	}

@@ -57,6 +57,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="MatrixBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,6 +75,9 @@
     </Compile>
     <Compile Include="Core\Transform.cs" />
     <Compile Include="Core\Util.cs" />
+    <Compile Include="MatrixBox.xaml.cs">
+      <DependentUpon>MatrixBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -78,9 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UI\Winforms Custom Controls\ImageDiff.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\Winforms Custom Controls\MatrixBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
