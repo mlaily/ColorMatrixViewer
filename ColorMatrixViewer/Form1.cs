@@ -17,24 +17,7 @@ namespace ColorMatrixViewer
 		public Form1()
 		{
 			InitializeComponent();
-			//vScrollBar1.MouseWheel += vScrollBar1_MouseWheel;
-			//vScrollBar1.MouseEnter += vScrollBar1_MouseEnter;
 		}
-
-		//void vScrollBar1_MouseEnter(object sender, EventArgs e)
-		//{
-		//	vScrollBar1.Focus();
-		//}
-
-		//void vScrollBar1_MouseWheel(object sender, MouseEventArgs e)
-		//{
-		//	int maxValue = vScrollBar1.Maximum - vScrollBar1.LargeChange;
-		//	var newValue = vScrollBar1.Value + e.Delta;
-		//	if (newValue >= vScrollBar1.Minimum && newValue <= maxValue)
-		//	{
-		//		vScrollBar1.Value = newValue;
-		//	}
-		//}
 
 		void matrixBox1_MatrixChanged(object sender, EventArgs e)
 		{
@@ -94,20 +77,7 @@ namespace ColorMatrixViewer
 
 		private void RefreshScrollBar()
 		{
-			int panelHeight = vScrollBar1.Height;
-			int contentHeight = tableLayoutPanel1.PreferredSize.Height;
-
-			tableLayoutPanel1.Height = contentHeight;
-
-			vScrollBar1.LargeChange = panelHeight;
-
-			vScrollBar1.Enabled = contentHeight > panelHeight;
-			if (contentHeight > panelHeight) vScrollBar1.Maximum = contentHeight;
-			else vScrollBar1.Value = vScrollBar1.Minimum;
-		}
-		private void vScrollBar1_ValueChanged(object sender, EventArgs e)
-		{
-			tableLayoutPanel1.Location = new Point(0, -1 * vScrollBar1.Value);
+			tableLayoutPanel1.Height = tableLayoutPanel1.PreferredSize.Height;
 		}
 
 		private void tableLayoutPanel1_MouseClick(object sender, MouseEventArgs e)
@@ -124,8 +94,6 @@ namespace ColorMatrixViewer
 		{
 			RefreshScrollBar();
 		}
-
-
 
 	}
 }
