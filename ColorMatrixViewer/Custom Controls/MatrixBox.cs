@@ -16,7 +16,17 @@ namespace ColorMatrixViewer
 		private float[,] _Matrix = null;
 		public float[,] Matrix
 		{
-			get { return _Matrix; }
+			get
+			{
+				if (this.Enabled)
+				{
+					return _Matrix;
+				}
+				else
+				{
+					return BuiltinMatrices.Identity;
+				}
+			}
 			private set
 			{
 				_Matrix = value;
@@ -175,6 +185,12 @@ namespace ColorMatrixViewer
 				}
 			}
 			this.suspendAutoRefresh = false;
+		}
+
+		public void ToggleEnabled()
+		{
+			this.Enabled = !this.Enabled;
+			OnMatrixChanged();
 		}
 
 		/// <summary>

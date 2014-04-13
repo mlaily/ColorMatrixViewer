@@ -70,21 +70,31 @@ namespace ColorMatrixViewer
 		{
 			var newMatrix = new InListMatrixBox();
 			newMatrix.MatrixBox.MatrixChanged += matrixBox_MatrixChanged;
+			newMatrix.RemoveButtonClicked += newMatrix_RemoveButtonClicked;
 			tableLayoutPanel1.Controls.Add(newMatrix);
 			RefreshScrollBar();
 		}
-		private void RemoveMatrixBox()
+
+		void newMatrix_RemoveButtonClicked(object sender, EventArgs e)
 		{
-			if (tableLayoutPanel1.Controls.Count > 0)
-			{
-				var last = (InListMatrixBox)tableLayoutPanel1.Controls[tableLayoutPanel1.Controls.Count - 1];
-				last.MatrixBox.MatrixChanged -= matrixBox_MatrixChanged;
-				tableLayoutPanel1.Controls.Remove(last);
-			}
-			RefreshScrollBar();
+			RemoveMatrixBox((InListMatrixBox)sender);
 		}
-
-
+		private void RemoveMatrixBox(InListMatrixBox control = null)
+		{
+			if (control == null)
+			{
+				if (tableLayoutPanel1.Controls.Count > 0)
+				{
+					var last = (InListMatrixBox)tableLayoutPanel1.Controls[tableLayoutPanel1.Controls.Count - 1];
+					control = last;
+				}
+			}
+			control.MatrixBox.MatrixChanged -= matrixBox_MatrixChanged;
+			control.RemoveButtonClicked -= newMatrix_RemoveButtonClicked;
+			tableLayoutPanel1.Controls.Remove(control);
+			RefreshScrollBar();
+			ApplyMatrix();
+		}
 
 		private void RefreshScrollBar()
 		{

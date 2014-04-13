@@ -15,12 +15,24 @@ namespace ColorMatrixViewer
 
 		public MatrixBox MatrixBox { get; private set; }
 
+		public event EventHandler RemoveButtonClicked;
+
 		public InListMatrixBox()
 		{
 			InitializeComponent();
 			this.MatrixBox = matrixBox1;
-			this.matrixTemplateList.DataSource = BuiltinMatrices.All;
-			this.matrixTemplateList.DisplayMember = "Key";
+
+			foreach (var item in BuiltinMatrices.All)
+			{
+				var toolStripItem = new ToolStripMenuItem();
+				toolStripItem.Text = item.Key;
+				toolStripItem.Click += (o, e) =>
+				{
+					//WARNING: the closure on foreach correctly works only in .Net 4.5/C# 5
+					this.matrixBox1.SetMatrix(item.Value);
+				};
+				this.loadToolStripMenuItem.DropDownItems.Add(toolStripItem);
+			}
 		}
 
 		private void plusBtn_MouseClick(object sender, MouseEventArgs e)
@@ -28,29 +40,25 @@ namespace ColorMatrixViewer
 			contextMenuStrip1.Show(plusBtn, e.Location);
 		}
 
-		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+		private void removeToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			matrixTemplateList.Show();
-		}
-
-		private void resetToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			matrixBox1.ResetMatrix();
-		}
-
-		private void InListMatrixBox_MouseClick(object sender, MouseEventArgs e)
-		{
-			matrixTemplateList.Hide();
-		}
-
-		private void matrixTemplateList_DoubleClick(object sender, EventArgs e)
-		{
-			matrixTemplateList.Hide();
-			var matrix = matrixTemplateList.SelectedItem;
-			if (matrix != null)
+			var handler = RemoveButtonClicked;
+			if (handler != null)
 			{
-				var cast = (KeyValuePair<string, float[,]>)matrix;
-				this.matrixBox1.SetMatrix(cast.Value);
+				RemoveButtonClicked(this, EventArgs.Empty);
+			}
+		}
+
+		private void disableEnableToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			matrixBox1.ToggleEnabled();
+			if (matrixBox1.Enabled)
+			{
+				disableEnableToolStripMenuItem.Text = "Disable";
+			}
+			else
+			{
+				disableEnableToolStripMenuItem.Text = "Enable";
 			}
 		}
 
