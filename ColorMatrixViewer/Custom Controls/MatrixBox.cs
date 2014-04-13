@@ -183,7 +183,8 @@ namespace ColorMatrixViewer
 		public void ResetMatrix()
 		{
 			this.suspendAutoRefresh = true;
-			Matrix = new float[5, 5];
+			//do not use the setter to avoid firing a matrix changed event for nothing (the event will be fired at the end of the reset)
+			_Matrix = new float[5, 5];
 			for (int i = 0; i < Matrix.GetLength(0); i++)
 			{
 				for (int j = 0; j < Matrix.GetLength(1); j++)
@@ -227,7 +228,10 @@ namespace ColorMatrixViewer
 				}
 				this.suspendAutoRefresh = true;
 				Matrix[i, j] = value;
-				RefreshTextBox(i, j);
+				if (RefreshTextBox(i, j))
+				{
+					OnMatrixChanged();
+				}
 				this.suspendAutoRefresh = false;
 			}
 		}
@@ -272,6 +276,10 @@ namespace ColorMatrixViewer
 				}
 			}
 			this.suspendAutoRefresh = false;
+			if (different)
+			{
+				OnMatrixChanged();
+			}
 			return different;
 		}
 
