@@ -60,9 +60,18 @@
     <Compile Include="Custom Controls\ImageDiff.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Custom Controls\InListMatrixBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custom Controls\InListMatrixBox.Designer.cs">
+      <DependentUpon>InListMatrixBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Util.cs" />
+    <EmbeddedResource Include="Custom Controls\InListMatrixBox.resx">
+      <DependentUpon>InListMatrixBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

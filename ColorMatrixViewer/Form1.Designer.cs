@@ -32,12 +32,13 @@
 			this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.loadAnImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.inListMatrixBox1 = new ColorMatrixViewer.InListMatrixBox();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.removeMatrixBtn = new System.Windows.Forms.Button();
 			this.AddMatrixBtn = new System.Windows.Forms.Button();
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
-			this.matrixBox1 = new ColorMatrixViewer.MatrixBox();
 			this.imageContextMenu.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -61,31 +62,44 @@
 			// 
 			// tableLayoutPanel1
 			// 
-			this.tableLayoutPanel1.AutoScroll = true;
-			this.tableLayoutPanel1.AutoSize = true;
 			this.tableLayoutPanel1.ColumnCount = 1;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this.matrixBox1, 0, 0);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel1.Controls.Add(this.inListMatrixBox1, 0, 0);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanel1.MinimumSize = new System.Drawing.Size(260, 0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 1;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(260, 321);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(278, 321);
 			this.tableLayoutPanel1.TabIndex = 3;
-			this.tableLayoutPanel1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.tableLayoutPanel1_Scroll);
 			this.tableLayoutPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseClick);
+			// 
+			// inListMatrixBox1
+			// 
+			this.inListMatrixBox1.Location = new System.Drawing.Point(3, 3);
+			this.inListMatrixBox1.Name = "inListMatrixBox1";
+			this.inListMatrixBox1.Size = new System.Drawing.Size(272, 95);
+			this.inListMatrixBox1.TabIndex = 0;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.tableLayoutPanel1);
+			this.panel1.Controls.Add(this.vScrollBar1);
 			this.panel1.Controls.Add(this.panel2);
+			this.panel1.Controls.Add(this.tableLayoutPanel1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(260, 421);
+			this.panel1.Size = new System.Drawing.Size(295, 421);
 			this.panel1.TabIndex = 4;
+			// 
+			// vScrollBar1
+			// 
+			this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
+			this.vScrollBar1.Enabled = false;
+			this.vScrollBar1.Location = new System.Drawing.Point(278, 0);
+			this.vScrollBar1.Name = "vScrollBar1";
+			this.vScrollBar1.Size = new System.Drawing.Size(17, 321);
+			this.vScrollBar1.TabIndex = 5;
+			this.vScrollBar1.ValueChanged += new System.EventHandler(this.vScrollBar1_ValueChanged);
 			// 
 			// panel2
 			// 
@@ -95,7 +109,7 @@
 			this.panel2.Location = new System.Drawing.Point(0, 321);
 			this.panel2.MinimumSize = new System.Drawing.Size(0, 50);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(260, 100);
+			this.panel2.Size = new System.Drawing.Size(295, 100);
 			this.panel2.TabIndex = 4;
 			// 
 			// removeMatrixBtn
@@ -122,20 +136,12 @@
 			// 
 			this.imageDiff1.ContextMenuStrip = this.imageContextMenu;
 			this.imageDiff1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.imageDiff1.Location = new System.Drawing.Point(260, 0);
+			this.imageDiff1.Location = new System.Drawing.Point(295, 0);
 			this.imageDiff1.Name = "imageDiff1";
-			this.imageDiff1.Size = new System.Drawing.Size(572, 421);
+			this.imageDiff1.Size = new System.Drawing.Size(537, 421);
 			this.imageDiff1.SplitterPosition = 0.5D;
 			this.imageDiff1.TabIndex = 1;
 			this.imageDiff1.TabStop = false;
-			// 
-			// matrixBox1
-			// 
-			this.matrixBox1.Location = new System.Drawing.Point(3, 3);
-			this.matrixBox1.Name = "matrixBox1";
-			this.matrixBox1.Size = new System.Drawing.Size(238, 88);
-			this.matrixBox1.TabIndex = 0;
-			this.matrixBox1.Text = "matrixBox1";
 			// 
 			// Form1
 			// 
@@ -147,10 +153,10 @@
 			this.Controls.Add(this.panel1);
 			this.Name = "Form1";
 			this.Text = "ColorMatrix Viewer";
+			this.Resize += new System.EventHandler(this.Form1_Resize);
 			this.imageContextMenu.ResumeLayout(false);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.panel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -162,11 +168,12 @@
 		private System.Windows.Forms.ContextMenuStrip imageContextMenu;
 		private System.Windows.Forms.ToolStripMenuItem loadAnImageToolStripMenuItem;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private MatrixBox matrixBox1;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.Button removeMatrixBtn;
 		private System.Windows.Forms.Button AddMatrixBtn;
+		private InListMatrixBox inListMatrixBox1;
+		private System.Windows.Forms.VScrollBar vScrollBar1;
 	}
 }
 
