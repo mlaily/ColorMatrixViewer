@@ -154,19 +154,22 @@ namespace ColorMatrixViewer
 					};
 					newTextBox.MouseWheel += (o, e) =>
 					{
-						decimal parsed = 0; //decimal type for exact decimal rounding
-						if (!decimal.TryParse(newTextBox.Text,
-							System.Globalization.NumberStyles.Float,
-							System.Globalization.CultureInfo.InvariantCulture, out parsed))
-							parsed = 0;
-						decimal increment = 1;
-						if (ModifierKeys == Keys.Control)
+						if (ModifierKeys != Keys.None)
 						{
-							increment = .1m;
+							decimal parsed = 0; //decimal type for exact decimal rounding
+							if (!decimal.TryParse(newTextBox.Text,
+								System.Globalization.NumberStyles.Float,
+								System.Globalization.CultureInfo.InvariantCulture, out parsed))
+								parsed = 0;
+							decimal increment = 1;
+							if (ModifierKeys == Keys.Control)
+							{
+								increment = .1m;
+							}
+							parsed += increment * (e.Delta / (Math.Abs(e.Delta)));
+							//10 significan figures
+							newTextBox.Text = parsed.ToString("g10", System.Globalization.CultureInfo.InvariantCulture);
 						}
-						parsed += increment * (e.Delta / (Math.Abs(e.Delta)));
-						//10 significan figures
-						newTextBox.Text = parsed.ToString("g10", System.Globalization.CultureInfo.InvariantCulture);
 					};
 					textboxes[i, j] = newTextBox;
 				}

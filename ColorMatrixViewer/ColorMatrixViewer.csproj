@@ -48,6 +48,9 @@
     <Compile Include="Core\BuiltinMatrices.cs" />
     <Compile Include="Core\QColoMatrix.cs" />
     <Compile Include="Core\Transform.cs" />
+    <Compile Include="CustomPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

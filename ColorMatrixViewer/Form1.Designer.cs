@@ -36,9 +36,9 @@
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.removeMatrixBtn = new System.Windows.Forms.Button();
 			this.AddMatrixBtn = new System.Windows.Forms.Button();
+			this.panel3 = new CustomPanel();
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
 			this.inListMatrixBox1 = new ColorMatrixViewer.InListMatrixBox();
-			this.panel3 = new System.Windows.Forms.Panel();
 			this.imageContextMenu.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -115,6 +115,16 @@
 			this.AddMatrixBtn.UseVisualStyleBackColor = true;
 			this.AddMatrixBtn.Click += new System.EventHandler(this.AddMatrixBtn_Click);
 			// 
+			// panel3
+			// 
+			this.panel3.AutoScroll = true;
+			this.panel3.Controls.Add(this.tableLayoutPanel1);
+			this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel3.Location = new System.Drawing.Point(0, 0);
+			this.panel3.Name = "panel3";
+			this.panel3.Size = new System.Drawing.Size(295, 321);
+			this.panel3.TabIndex = 5;
+			// 
 			// imageDiff1
 			// 
 			this.imageDiff1.ContextMenuStrip = this.imageContextMenu;
@@ -132,16 +142,6 @@
 			this.inListMatrixBox1.Name = "inListMatrixBox1";
 			this.inListMatrixBox1.Size = new System.Drawing.Size(272, 95);
 			this.inListMatrixBox1.TabIndex = 0;
-			// 
-			// panel3
-			// 
-			this.panel3.AutoScroll = true;
-			this.panel3.Controls.Add(this.tableLayoutPanel1);
-			this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel3.Location = new System.Drawing.Point(0, 0);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(295, 321);
-			this.panel3.TabIndex = 5;
 			// 
 			// Form1
 			// 
@@ -174,7 +174,7 @@
 		private System.Windows.Forms.Button removeMatrixBtn;
 		private System.Windows.Forms.Button AddMatrixBtn;
 		private InListMatrixBox inListMatrixBox1;
-		private System.Windows.Forms.Panel panel3;
+		private CustomPanel panel3;
 	}
 }
 
