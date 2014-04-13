@@ -49,6 +49,8 @@ namespace ColorMatrixViewer
 		/// </summary>
 		public static float[,] NegativeHueShift180Variation4 { get; private set; }
 
+		public static IEnumerable<KeyValuePair<string, float[,]>> All { get; private set; }
+
 		static BuiltinMatrices()
 		{
 			Identity = new float[,] {
@@ -128,6 +130,16 @@ namespace ColorMatrixViewer
 				{   0.0f,   0.0f,   0.0f, 1.0f, 0.0f },
 				{   1.0f,   1.0f,   1.0f, 0.0f, 1.0f }
 			};
+
+			List<KeyValuePair<string, float[,]>> all = new List<KeyValuePair<string, float[,]>>();
+			foreach (var prop in typeof(BuiltinMatrices).GetProperties())
+			{
+				if (prop.Name != "All")
+				{
+					all.Add(new KeyValuePair<string, float[,]>(prop.Name, (float[,])prop.GetValue(null)));
+				}
+			}
+			All = all;
 		}
 	}
 }

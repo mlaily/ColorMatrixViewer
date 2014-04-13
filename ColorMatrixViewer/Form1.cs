@@ -17,9 +17,10 @@ namespace ColorMatrixViewer
 		public Form1()
 		{
 			InitializeComponent();
+			AddMatrixBox();
 		}
 
-		void matrixBox1_MatrixChanged(object sender, EventArgs e)
+		void matrixBox_MatrixChanged(object sender, EventArgs e)
 		{
 			ApplyMatrix();
 		}
@@ -58,41 +59,46 @@ namespace ColorMatrixViewer
 
 		private void AddMatrixBtn_Click(object sender, EventArgs e)
 		{
+			AddMatrixBox();
+		}
+		private void removeMatrixBtn_Click(object sender, EventArgs e)
+		{
+			RemoveMatrixBox();
+		}
+
+		private void AddMatrixBox()
+		{
 			var newMatrix = new InListMatrixBox();
-			newMatrix.MatrixBox.MatrixChanged += matrixBox1_MatrixChanged;
+			newMatrix.MatrixBox.MatrixChanged += matrixBox_MatrixChanged;
 			tableLayoutPanel1.Controls.Add(newMatrix);
 			RefreshScrollBar();
 		}
-
-		private void removeMatrixBtn_Click(object sender, EventArgs e)
+		private void RemoveMatrixBox()
 		{
 			if (tableLayoutPanel1.Controls.Count > 0)
 			{
 				var last = (InListMatrixBox)tableLayoutPanel1.Controls[tableLayoutPanel1.Controls.Count - 1];
-				last.MatrixBox.MatrixChanged -= matrixBox1_MatrixChanged;
+				last.MatrixBox.MatrixChanged -= matrixBox_MatrixChanged;
 				tableLayoutPanel1.Controls.Remove(last);
 			}
 			RefreshScrollBar();
 		}
+
+
 
 		private void RefreshScrollBar()
 		{
 			tableLayoutPanel1.Height = tableLayoutPanel1.PreferredSize.Height;
 		}
 
-		private void tableLayoutPanel1_MouseClick(object sender, MouseEventArgs e)
-		{
-			ForceMatrixListFocus();
-		}
-
-		private void ForceMatrixListFocus()
-		{
-			tableLayoutPanel1.Focus();
-		}
-
 		private void Form1_Resize(object sender, EventArgs e)
 		{
 			RefreshScrollBar();
+		}
+
+		private void tableLayoutPanel1_MouseClick(object sender, MouseEventArgs e)
+		{
+
 		}
 
 	}

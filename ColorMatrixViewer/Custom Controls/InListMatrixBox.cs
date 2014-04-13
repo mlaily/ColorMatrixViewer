@@ -19,6 +19,8 @@ namespace ColorMatrixViewer
 		{
 			InitializeComponent();
 			this.MatrixBox = matrixBox1;
+			this.matrixTemplateList.DataSource = BuiltinMatrices.All;
+			this.matrixTemplateList.DisplayMember = "Key";
 		}
 
 		private void plusBtn_MouseClick(object sender, MouseEventArgs e)
@@ -39,6 +41,17 @@ namespace ColorMatrixViewer
 		private void InListMatrixBox_MouseClick(object sender, MouseEventArgs e)
 		{
 			matrixTemplateList.Hide();
+		}
+
+		private void matrixTemplateList_DoubleClick(object sender, EventArgs e)
+		{
+			matrixTemplateList.Hide();
+			var matrix = matrixTemplateList.SelectedItem;
+			if (matrix != null)
+			{
+				var cast = (KeyValuePair<string, float[,]>)matrix;
+				this.matrixBox1.SetMatrix(cast.Value);
+			}
 		}
 
 	}

@@ -47,6 +47,7 @@
 			this.matrixTemplateList.Size = new System.Drawing.Size(238, 95);
 			this.matrixTemplateList.TabIndex = 3;
 			this.matrixTemplateList.Visible = false;
+			this.matrixTemplateList.DoubleClick += new System.EventHandler(this.matrixTemplateList_DoubleClick);
 			// 
 			// matrixBox1
 			// 
@@ -79,7 +80,7 @@
 			// loadToolStripMenuItem
 			// 
 			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-			this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
 			this.loadToolStripMenuItem.Text = "Load...";
 			this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
@@ -91,7 +92,7 @@
 			// resetToolStripMenuItem
 			// 
 			this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-			this.resetToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.resetToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
 			this.resetToolStripMenuItem.Text = "Reset";
 			this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
 			// 
