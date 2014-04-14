@@ -18,14 +18,7 @@ namespace ColorMatrixViewer
 		{
 			get
 			{
-				if (this.Enabled)
-				{
-					return _Matrix;
-				}
-				else
-				{
-					return BuiltinMatrices.Identity;
-				}
+				return _Matrix;
 			}
 			private set
 			{

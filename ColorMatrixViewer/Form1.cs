@@ -18,10 +18,31 @@ namespace ColorMatrixViewer
 		{
 			InitializeComponent();
 			AddMatrixBox();
+			splitContainer1.SplitterDistance = splitContainer1.Height - 100;
 		}
 
 		void matrixBox_MatrixChanged(object sender, EventArgs e)
 		{
+			var finalMatrix = new float[5, 5];
+			for (int i = 0; i < 5; i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					finalMatrix[i, j] = BuiltinMatrices.Identity[i, j];
+				}
+			}
+			foreach (InListMatrixBox matrixControl in tableLayoutPanel1.Controls)
+			{
+				if (!matrixControl.MatrixBox.Enabled)
+				{
+					continue;
+				}
+				else
+				{
+					finalMatrix = Transform.Multiply(finalMatrix, matrixControl.MatrixBox.Matrix);
+				}
+			}
+			resultMatrixBox.SetMatrix(finalMatrix);
 			ApplyMatrix();
 		}
 
@@ -29,19 +50,8 @@ namespace ColorMatrixViewer
 		{
 			if (imageDiff1.FirstImage != null)
 			{
-				var finalMatrix = new float[5, 5];
-				for (int i = 0; i < 5; i++)
-				{
-					for (int j = 0; j < 5; j++)
-					{
-						finalMatrix[i, j] = BuiltinMatrices.Identity[i, j];
-					}
-				}
-				foreach (InListMatrixBox matrixControl in tableLayoutPanel1.Controls)
-				{
-					finalMatrix = Transform.Multiply(finalMatrix, matrixControl.MatrixBox.Matrix);
-				}
-				imageDiff1.SetImages(second: Util.ApplyColorMatrix(imageDiff1.FirstImage, finalMatrix));
+
+				imageDiff1.SetImages(second: Util.ApplyColorMatrix(imageDiff1.FirstImage, resultMatrixBox.Matrix));
 			}
 		}
 
@@ -110,6 +120,27 @@ namespace ColorMatrixViewer
 		{
 			imageDiff1.LoadDefaultImage();
 			ApplyMatrix();
+		}
+
+		private void showResultMatrixBtn_Click(object sender, EventArgs e)
+		{
+			splitContainer1.Panel2Collapsed = !splitContainer1.Panel2Collapsed;
+			if (splitContainer1.Panel2Collapsed)
+			{
+				showResultMatrixBtn.Text = "Show resulting matrix";
+			}
+			else
+			{
+				showResultMatrixBtn.Text = "Hide resulting matrix";
+			}
+		}
+
+		private void splitContainer1_Panel2_MouseClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == System.Windows.Forms.MouseButtons.Right)
+			{
+				resultMatrixContextMenu.Show(splitContainer1.Panel2, e.Location);
+			}
 		}
 
 	}
