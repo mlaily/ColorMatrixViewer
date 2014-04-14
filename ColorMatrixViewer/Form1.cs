@@ -106,9 +106,10 @@ namespace ColorMatrixViewer
 			RefreshScrollBar();
 		}
 
-		private void tableLayoutPanel1_MouseClick(object sender, MouseEventArgs e)
+		private void loadTheDefaultImageToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			imageDiff1.LoadDefaultImage();
+			ApplyMatrix();
 		}
 
 	}

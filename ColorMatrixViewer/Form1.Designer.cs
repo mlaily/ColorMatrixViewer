@@ -37,6 +37,8 @@
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
 			this.panel3 = new ColorMatrixViewer.CustomPanel();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.loadTheDefaultImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.imageContextMenu.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
@@ -46,15 +48,17 @@
 			// imageContextMenu
 			// 
 			this.imageContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadAnImageToolStripMenuItem});
+            this.loadAnImageToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.loadTheDefaultImageToolStripMenuItem});
 			this.imageContextMenu.Name = "imageContextMenu";
 			this.imageContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.imageContextMenu.Size = new System.Drawing.Size(162, 26);
+			this.imageContextMenu.Size = new System.Drawing.Size(197, 76);
 			// 
 			// loadAnImageToolStripMenuItem
 			// 
 			this.loadAnImageToolStripMenuItem.Name = "loadAnImageToolStripMenuItem";
-			this.loadAnImageToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+			this.loadAnImageToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
 			this.loadAnImageToolStripMenuItem.Text = "Load an image...";
 			this.loadAnImageToolStripMenuItem.Click += new System.EventHandler(this.loadAnImageToolStripMenuItem_Click);
 			// 
@@ -120,6 +124,18 @@
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(278, 391);
 			this.tableLayoutPanel1.TabIndex = 3;
 			// 
+			// loadTheDefaultImageToolStripMenuItem
+			// 
+			this.loadTheDefaultImageToolStripMenuItem.Name = "loadTheDefaultImageToolStripMenuItem";
+			this.loadTheDefaultImageToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.loadTheDefaultImageToolStripMenuItem.Text = "Load the default image";
+			this.loadTheDefaultImageToolStripMenuItem.Click += new System.EventHandler(this.loadTheDefaultImageToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(193, 6);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -149,6 +165,8 @@
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.Button AddMatrixBtn;
 		private CustomPanel panel3;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem loadTheDefaultImageToolStripMenuItem;
 	}
 }
 

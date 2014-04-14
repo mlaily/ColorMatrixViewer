@@ -42,13 +42,21 @@ namespace ColorMatrixViewer
 			this.SplitterPosition = .5;
 			this.MouseDown += ImageDiff_MouseMove;
 			this.MouseMove += ImageDiff_MouseMove;
+			LoadDefaultImage();
+		}
+
+		public void LoadDefaultImage()
+		{
+			this.SetImages(ColorMatrixViewer.Properties.Resources.mire, null);
 		}
 
 		public void SetImages(Image first = null, Image second = null)
 		{
-			if (first == null && second == null)
+			bool firstWasNull = first == null;
+			bool secondWasNull = second == null;
+			if (firstWasNull && secondWasNull)
 			{
-				return;
+				LoadDefaultImage();
 			}
 
 			//At all time, if one of the images is set, the other is set too
@@ -69,7 +77,18 @@ namespace ColorMatrixViewer
 
 			if (first.Width != second.Width || first.Height != second.Height)
 			{
-				throw new ArgumentException("The FirstImage and SecondImage must have the same dimensions!");
+				if (firstWasNull)
+				{
+					first = new Bitmap(second);
+				}
+				else if (secondWasNull)
+				{
+					second = new Bitmap(first);
+				}
+				else
+				{
+					throw new ArgumentException("The FirstImage and SecondImage must have the same dimensions!");
+				}
 			}
 
 			this.FirstImage = first;
@@ -119,16 +138,17 @@ namespace ColorMatrixViewer
 
 		void ImageDiff_MouseMove(object sender, MouseEventArgs e)
 		{
-			if (e.Button == System.Windows.Forms.MouseButtons.None) return;
-
-			double x = e.X;//, y = e.Y;
-			if (ActualImageLocation == null || ActualImageLocation.Width == 0) return;
-			else
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
 			{
-				x -= ActualImageLocation.X;
-			}
+				double x = e.X;//, y = e.Y;
+				if (ActualImageLocation == null || ActualImageLocation.Width == 0) return;
+				else
+				{
+					x -= ActualImageLocation.X;
+				}
 
-			this.SplitterPosition = x / ActualImageLocation.Width;
+				this.SplitterPosition = x / ActualImageLocation.Width;
+			}
 		}
 
 		private static int Round(double d)

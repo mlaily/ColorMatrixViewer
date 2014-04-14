@@ -75,6 +75,7 @@
     <EmbeddedResource Include="Custom Controls\InListMatrixBox.resx">
       <DependentUpon>InListMatrixBox.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Custom Controls\mire.jpg" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
