@@ -14,6 +14,10 @@ namespace ColorMatrixViewer
 	public partial class Form1 : Form
 	{
 
+		private int draggingPositionY;
+		private int dropAtIndex = 0;
+		private Pen dragDropIndicationPen = new Pen(SystemColors.ControlDarkDark, 4);
+
 		public Form1()
 		{
 			InitializeComponent();
@@ -81,8 +85,15 @@ namespace ColorMatrixViewer
 			var newMatrix = new InListMatrixBox();
 			newMatrix.MatrixBox.MatrixChanged += matrixBox_MatrixChanged;
 			newMatrix.RemoveButtonClicked += newMatrix_RemoveButtonClicked;
+			newMatrix.GripMouseDown += newMatrix_GripMouseDown;
 			tableLayoutPanel1.Controls.Add(newMatrix);
 			RefreshScrollBar();
+		}
+
+		void newMatrix_GripMouseDown(object sender, MouseEventArgs e)
+		{
+			var cast = (InListMatrixBox)sender;
+			cast.DoDragDrop(cast, DragDropEffects.Move);
 		}
 
 		void newMatrix_RemoveButtonClicked(object sender, EventArgs e)
@@ -108,7 +119,13 @@ namespace ColorMatrixViewer
 
 		private void RefreshScrollBar()
 		{
-			tableLayoutPanel1.Height = tableLayoutPanel1.PreferredSize.Height;
+			var preferredHeight = tableLayoutPanel1.PreferredSize.Height;
+			//the smallest possible to avoid scrollbars but still big enough to fill space and allow seamless drag and drop
+			if (preferredHeight < splitContainer1.Panel1.Height)
+			{
+				preferredHeight = splitContainer1.Panel1.Height;
+			}
+			tableLayoutPanel1.Height = preferredHeight;
 		}
 
 		private void Form1_Resize(object sender, EventArgs e)
@@ -141,6 +158,77 @@ namespace ColorMatrixViewer
 			{
 				resultMatrixContextMenu.Show(splitContainer1.Panel2, e.Location);
 			}
+		}
+
+		private InListMatrixBox RefreshDragDropMatrix(DragEventArgs e)
+		{
+			var draggedMatrix = e.Data.GetData(typeof(InListMatrixBox).FullName) as InListMatrixBox;
+			if (draggedMatrix == null) return null;
+
+			var draggedOverMatrix = tableLayoutPanel1.GetChildAtPoint(
+						   tableLayoutPanel1.PointToClient(new Point(e.X, e.Y))) as InListMatrixBox;
+			if (draggedOverMatrix == null)
+			{
+				//abort refreshing
+				return draggedMatrix;
+			}
+			var point = draggedOverMatrix.PointToClient(new Point(e.X, e.Y));
+
+			if (point.Y <= draggedMatrix.Height / 2)
+			{
+				//before
+				dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix) - 1;
+				if (dropAtIndex < 0) dropAtIndex = 0;
+				draggingPositionY = draggedOverMatrix.Location.Y - 2;//pen width: 4
+			}
+			else
+			{
+				//after
+				dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix) ;
+				//if (dropAtIndex > tableLayoutPanel1.Controls.Count - 1) dropAtIndex = tableLayoutPanel1.Controls.Count - 1;
+				draggingPositionY = draggedOverMatrix.Location.Y + draggedOverMatrix.Height + 2;//pen width: 4
+			}
+			if (draggedMatrix == draggedOverMatrix)
+			{
+				dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedMatrix);
+			}
+			//else
+			//{
+			//	dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix);
+			//}
+			return draggedMatrix;
+		}
+
+		private void tableLayoutPanel1_DragOver(object sender, DragEventArgs e)
+		{
+			if (RefreshDragDropMatrix(e) == null) return;
+
+			e.Effect = DragDropEffects.Move;
+
+			var g = tableLayoutPanel1.CreateGraphics();
+			g.Clear(tableLayoutPanel1.BackColor);
+			//take the margins into account so that the line is perfectly aligned with the matrix box
+			g.DrawLine(dragDropIndicationPen, 6, draggingPositionY, tableLayoutPanel1.Width - 3, draggingPositionY);
+		}
+
+		private void tableLayoutPanel1_DragDrop(object sender, DragEventArgs e)
+		{
+			var draggedMatrix = RefreshDragDropMatrix(e);
+
+			tableLayoutPanel1.Controls.SetChildIndex(draggedMatrix, dropAtIndex);
+
+			CleanDragDropIndicator();
+		}
+
+		private void tableLayoutPanel1_DragLeave(object sender, EventArgs e)
+		{
+			CleanDragDropIndicator();
+		}
+
+		private void CleanDragDropIndicator()
+		{
+			var g = tableLayoutPanel1.CreateGraphics();
+			g.Clear(tableLayoutPanel1.BackColor);
 		}
 
 	}

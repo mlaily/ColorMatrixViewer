@@ -110,6 +110,7 @@
 			this.gripPanel.Name = "gripPanel";
 			this.gripPanel.Size = new System.Drawing.Size(15, 88);
 			this.gripPanel.TabIndex = 3;
+			this.gripPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gripPanel_MouseDown);
 			// 
 			// InListMatrixBox
 			// 

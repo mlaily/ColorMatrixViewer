@@ -16,6 +16,7 @@ namespace ColorMatrixViewer
 		public MatrixBox MatrixBox { get; private set; }
 
 		public event EventHandler RemoveButtonClicked;
+		public event MouseEventHandler GripMouseDown;
 
 		public InListMatrixBox()
 		{
@@ -59,6 +60,15 @@ namespace ColorMatrixViewer
 			else
 			{
 				disableEnableToolStripMenuItem.Text = "Enable";
+			}
+		}
+
+		private void gripPanel_MouseDown(object sender, MouseEventArgs e)
+		{
+			var handler = GripMouseDown;
+			if (handler != null)
+			{
+				handler(this, e);
 			}
 		}
 
