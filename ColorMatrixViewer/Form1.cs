@@ -174,28 +174,46 @@ namespace ColorMatrixViewer
 			}
 			var point = draggedOverMatrix.PointToClient(new Point(e.X, e.Y));
 
+			int indexOfDragging = tableLayoutPanel1.Controls.IndexOf(draggedMatrix);
+			int indexOfDraggedOver = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix);
+
+			//TODO: maybe try to simplify this a bit?
 			if (point.Y <= draggedMatrix.Height / 2)
 			{
 				//before
-				dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix) - 1;
-				if (dropAtIndex < 0) dropAtIndex = 0;
 				draggingPositionY = draggedOverMatrix.Location.Y - 2;//pen width: 4
+				if (indexOfDragging < indexOfDraggedOver)
+				{
+					//dragging is before dragged over
+					dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix) - 1;
+					if (dropAtIndex < 0) dropAtIndex = 0;
+				}
+				else
+				{
+					//dragging is after dragged over (indexes cannot be equal)
+					dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix);
+				}
 			}
 			else
 			{
 				//after
-				dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix) ;
-				//if (dropAtIndex > tableLayoutPanel1.Controls.Count - 1) dropAtIndex = tableLayoutPanel1.Controls.Count - 1;
 				draggingPositionY = draggedOverMatrix.Location.Y + draggedOverMatrix.Height + 2;//pen width: 4
+				if (indexOfDragging < indexOfDraggedOver)
+				{
+					//dragging is before dragged over
+					dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix);
+				}
+				else
+				{
+					//dragging is after dragged over (indexes cannot be equal)
+					dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix) + 1;
+					if (dropAtIndex > tableLayoutPanel1.Controls.Count - 1) dropAtIndex = tableLayoutPanel1.Controls.Count - 1;
+				}
 			}
 			if (draggedMatrix == draggedOverMatrix)
 			{
-				dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedMatrix);
+				dropAtIndex = indexOfDragging;
 			}
-			//else
-			//{
-			//	dropAtIndex = tableLayoutPanel1.Controls.IndexOf(draggedOverMatrix);
-			//}
 			return draggedMatrix;
 		}
 
