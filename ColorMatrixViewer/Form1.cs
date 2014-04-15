@@ -27,6 +27,11 @@ namespace ColorMatrixViewer
 
 		void matrixBox_MatrixChanged(object sender, EventArgs e)
 		{
+			ApplyMatrix();
+		}
+
+		private void ApplyMatrix()
+		{
 			var finalMatrix = new float[5, 5];
 			for (int i = 0; i < 5; i++)
 			{
@@ -47,14 +52,8 @@ namespace ColorMatrixViewer
 				}
 			}
 			resultMatrixBox.SetMatrix(finalMatrix);
-			ApplyMatrix();
-		}
-
-		private void ApplyMatrix()
-		{
 			if (imageDiff1.FirstImage != null)
 			{
-
 				imageDiff1.SetImages(second: Util.ApplyColorMatrix(imageDiff1.FirstImage, resultMatrixBox.Matrix));
 			}
 		}
@@ -234,6 +233,7 @@ namespace ColorMatrixViewer
 			var draggedMatrix = RefreshDragDropMatrix(e);
 
 			tableLayoutPanel1.Controls.SetChildIndex(draggedMatrix, dropAtIndex);
+			ApplyMatrix();//matrix multiplication is order dependant
 
 			CleanDragDropIndicator();
 		}
