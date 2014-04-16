@@ -251,5 +251,16 @@ namespace ColorMatrixViewer
 			g.Clear(tableLayoutPanel1.BackColor);
 		}
 
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var resultString = Util.MatrixToString(resultMatrixBox.Matrix);
+			Clipboard.SetText(resultString);
+		}
+
 	}
 }

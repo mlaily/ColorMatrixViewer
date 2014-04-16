@@ -44,6 +44,7 @@
 			this.resultMatrixContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
+			this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageContextMenu.SuspendLayout();
 			this.leftColumnPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -180,6 +181,7 @@
 			// resultMatrixContextMenu
 			// 
 			this.resultMatrixContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToClipboardToolStripMenuItem,
             this.saveToolStripMenuItem});
 			this.resultMatrixContextMenu.Name = "contextMenuStrip1";
 			this.resultMatrixContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -190,6 +192,7 @@
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			this.saveToolStripMenuItem.Text = "Save...";
+			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
 			// imageDiff1
 			// 
@@ -201,6 +204,13 @@
 			this.imageDiff1.SplitterPosition = 0.5D;
 			this.imageDiff1.TabIndex = 1;
 			this.imageDiff1.TabStop = false;
+			// 
+			// copyToClipboardToolStripMenuItem
+			// 
+			this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
+			this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.copyToClipboardToolStripMenuItem.Text = "Copy to Clipboard";
+			this.copyToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyToClipboardToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -242,6 +252,7 @@
 		private MatrixBox resultMatrixBox;
 		private System.Windows.Forms.ContextMenuStrip resultMatrixContextMenu;
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
 	}
 }
 
