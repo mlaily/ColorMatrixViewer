@@ -271,7 +271,7 @@ namespace ColorMatrixViewer
 
 		private void ClearMatricesBtn_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show("Remove all the matrices in the list?", "Please confirm...", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.Yes)
+			if (MessageBox.Show("Remove all the matrices in the list?", "Please confirm...", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
 			{
 				while (tableLayoutPanel1.Controls.Count > 1)
 				{
