@@ -205,6 +205,10 @@ namespace ColorMatrixViewer
 			this.suspendAutoRefresh = false;
 		}
 
+		/// <summary>
+		/// Set the internal matrix of the control to a clone of the given matrix
+		/// </summary>
+		/// <param name="matrix"></param>
 		public void SetMatrix(float[,] matrix)
 		{
 			if (matrix == null)

@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.loadAnImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -114,7 +115,7 @@
 			this.splitContainer1.Panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseClick);
 			this.splitContainer1.Panel2MinSize = 0;
 			this.splitContainer1.Size = new System.Drawing.Size(313, 391);
-			this.splitContainer1.SplitterDistance = 289;
+			this.splitContainer1.SplitterDistance = 295;
 			this.splitContainer1.SplitterWidth = 1;
 			this.splitContainer1.TabIndex = 0;
 			// 
@@ -209,6 +210,7 @@
 			this.ClientSize = new System.Drawing.Size(832, 421);
 			this.Controls.Add(this.imageDiff1);
 			this.Controls.Add(this.leftColumnPanel);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Form1";
 			this.Text = "ColorMatrix Viewer";
 			this.Resize += new System.EventHandler(this.Form1_Resize);

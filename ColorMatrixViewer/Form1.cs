@@ -21,7 +21,8 @@ namespace ColorMatrixViewer
 		public Form1()
 		{
 			InitializeComponent();
-			AddMatrixBox();
+			var exampleMatrix = AddMatrixBox();
+			exampleMatrix.MatrixBox.SetMatrix(BuiltinMatrices.NegativeHueShift180Variation1);
 			splitContainer1.SplitterDistance = splitContainer1.Height - 100;
 		}
 
@@ -79,7 +80,7 @@ namespace ColorMatrixViewer
 			RemoveMatrixBox();
 		}
 
-		private void AddMatrixBox()
+		private InListMatrixBox AddMatrixBox()
 		{
 			var newMatrix = new InListMatrixBox();
 			newMatrix.MatrixBox.MatrixChanged += matrixBox_MatrixChanged;
@@ -87,6 +88,7 @@ namespace ColorMatrixViewer
 			newMatrix.GripMouseDown += newMatrix_GripMouseDown;
 			tableLayoutPanel1.Controls.Add(newMatrix);
 			RefreshScrollBar();
+			return newMatrix;
 		}
 
 		void newMatrix_GripMouseDown(object sender, MouseEventArgs e)
