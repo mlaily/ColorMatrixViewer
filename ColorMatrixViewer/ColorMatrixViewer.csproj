@@ -54,7 +54,7 @@
     <Compile Include="Custom Controls\GripPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomPanel.cs">
+    <Compile Include="Custom Controls\CustomPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Form1.cs">
