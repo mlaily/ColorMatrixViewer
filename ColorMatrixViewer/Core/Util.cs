@@ -70,7 +70,7 @@ namespace ColorMatrixViewer
 						sb.Append(", ");
 					}
 				}
-				sb.Append(" }\n");
+				sb.AppendLine(" }");
 			}
 			return sb.ToString();
 		}
