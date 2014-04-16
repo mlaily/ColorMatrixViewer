@@ -101,7 +101,7 @@ namespace ColorMatrixViewer
 		{
 			RemoveMatrixBox((InListMatrixBox)sender);
 		}
-		private void RemoveMatrixBox(InListMatrixBox control = null)
+		private void RemoveMatrixBox(InListMatrixBox control = null, bool refreshUI = true)
 		{
 			if (control == null)
 			{
@@ -110,12 +110,19 @@ namespace ColorMatrixViewer
 					var last = (InListMatrixBox)tableLayoutPanel1.Controls[tableLayoutPanel1.Controls.Count - 1];
 					control = last;
 				}
+				else
+				{
+					return;
+				}
 			}
 			control.MatrixBox.MatrixChanged -= matrixBox_MatrixChanged;
 			control.RemoveButtonClicked -= newMatrix_RemoveButtonClicked;
 			tableLayoutPanel1.Controls.Remove(control);
-			RefreshScrollBar();
-			ApplyMatrix();
+			if (refreshUI)
+			{
+				RefreshScrollBar();
+				ApplyMatrix();
+			}
 		}
 
 		private void RefreshScrollBar()
@@ -253,13 +260,25 @@ namespace ColorMatrixViewer
 
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			//TODO
 		}
 
 		private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var resultString = Util.MatrixToString(resultMatrixBox.Matrix);
 			Clipboard.SetText(resultString);
+		}
+
+		private void ClearMatricesBtn_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("Remove all the matrices in the list?", "Please confirm...", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.Yes)
+			{
+				while (tableLayoutPanel1.Controls.Count > 1)
+				{
+					RemoveMatrixBox(refreshUI: false);
+				}
+				RemoveMatrixBox(refreshUI: true);
+			}
 		}
 
 	}

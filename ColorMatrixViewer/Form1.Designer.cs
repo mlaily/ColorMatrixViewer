@@ -36,25 +36,26 @@
 			this.loadTheDefaultImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.leftColumnPanel = new System.Windows.Forms.Panel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.customPanel1 = new ColorMatrixViewer.CustomPanel();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.resultMatrixBox = new ColorMatrixViewer.MatrixBox();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.ClearMatricesBtn = new System.Windows.Forms.Button();
 			this.showResultMatrixBtn = new System.Windows.Forms.Button();
 			this.AddMatrixBtn = new System.Windows.Forms.Button();
 			this.resultMatrixContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
-			this.customPanel1 = new ColorMatrixViewer.CustomPanel();
 			this.imageContextMenu.SuspendLayout();
 			this.leftColumnPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.customPanel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.resultMatrixContextMenu.SuspendLayout();
-			this.customPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// imageContextMenu
@@ -121,6 +122,16 @@
 			this.splitContainer1.SplitterWidth = 1;
 			this.splitContainer1.TabIndex = 0;
 			// 
+			// customPanel1
+			// 
+			this.customPanel1.AutoScroll = true;
+			this.customPanel1.Controls.Add(this.tableLayoutPanel1);
+			this.customPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.customPanel1.Location = new System.Drawing.Point(0, 0);
+			this.customPanel1.Name = "customPanel1";
+			this.customPanel1.Size = new System.Drawing.Size(313, 277);
+			this.customPanel1.TabIndex = 4;
+			// 
 			// tableLayoutPanel1
 			// 
 			this.tableLayoutPanel1.AllowDrop = true;
@@ -150,6 +161,7 @@
 			// 
 			// panel2
 			// 
+			this.panel2.Controls.Add(this.ClearMatricesBtn);
 			this.panel2.Controls.Add(this.showResultMatrixBtn);
 			this.panel2.Controls.Add(this.AddMatrixBtn);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -159,21 +171,31 @@
 			this.panel2.Size = new System.Drawing.Size(313, 30);
 			this.panel2.TabIndex = 4;
 			// 
+			// ClearMatricesBtn
+			// 
+			this.ClearMatricesBtn.Location = new System.Drawing.Point(90, 3);
+			this.ClearMatricesBtn.Name = "ClearMatricesBtn";
+			this.ClearMatricesBtn.Size = new System.Drawing.Size(77, 23);
+			this.ClearMatricesBtn.TabIndex = 2;
+			this.ClearMatricesBtn.Text = "Clear list...";
+			this.ClearMatricesBtn.UseVisualStyleBackColor = true;
+			this.ClearMatricesBtn.Click += new System.EventHandler(this.ClearMatricesBtn_Click);
+			// 
 			// showResultMatrixBtn
 			// 
-			this.showResultMatrixBtn.Location = new System.Drawing.Point(171, 3);
+			this.showResultMatrixBtn.Location = new System.Drawing.Point(208, 3);
 			this.showResultMatrixBtn.Name = "showResultMatrixBtn";
-			this.showResultMatrixBtn.Size = new System.Drawing.Size(118, 23);
+			this.showResultMatrixBtn.Size = new System.Drawing.Size(100, 23);
 			this.showResultMatrixBtn.TabIndex = 1;
-			this.showResultMatrixBtn.Text = "Hide resulting matrix";
+			this.showResultMatrixBtn.Text = "Hide result matrix";
 			this.showResultMatrixBtn.UseVisualStyleBackColor = true;
 			this.showResultMatrixBtn.Click += new System.EventHandler(this.showResultMatrixBtn_Click);
 			// 
 			// AddMatrixBtn
 			// 
-			this.AddMatrixBtn.Location = new System.Drawing.Point(12, 3);
+			this.AddMatrixBtn.Location = new System.Drawing.Point(5, 3);
 			this.AddMatrixBtn.Name = "AddMatrixBtn";
-			this.AddMatrixBtn.Size = new System.Drawing.Size(118, 23);
+			this.AddMatrixBtn.Size = new System.Drawing.Size(77, 23);
 			this.AddMatrixBtn.TabIndex = 0;
 			this.AddMatrixBtn.Text = "Add a matrix";
 			this.AddMatrixBtn.UseVisualStyleBackColor = true;
@@ -213,16 +235,6 @@
 			this.imageDiff1.TabIndex = 1;
 			this.imageDiff1.TabStop = false;
 			// 
-			// customPanel1
-			// 
-			this.customPanel1.AutoScroll = true;
-			this.customPanel1.Controls.Add(this.tableLayoutPanel1);
-			this.customPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.customPanel1.Location = new System.Drawing.Point(0, 0);
-			this.customPanel1.Name = "customPanel1";
-			this.customPanel1.Size = new System.Drawing.Size(313, 256);
-			this.customPanel1.TabIndex = 4;
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -241,9 +253,9 @@
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.customPanel1.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
 			this.resultMatrixContextMenu.ResumeLayout(false);
-			this.customPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -266,6 +278,7 @@
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
 		private CustomPanel customPanel1;
+		private System.Windows.Forms.Button ClearMatricesBtn;
 	}
 }
 
