@@ -302,7 +302,7 @@ namespace ColorMatrixViewer
 		/// </summary>
 		private bool RefreshTextBox(int i, int j)
 		{
-			string text = Matrix[i, j].ToString();
+			string text = Matrix[i, j].ToString("g10", System.Globalization.CultureInfo.InvariantCulture);
 			if (textboxes[i, j].Text != text)
 			{
 				textboxes[i, j].Text = text;
