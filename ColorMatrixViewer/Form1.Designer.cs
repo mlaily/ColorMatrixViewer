@@ -42,9 +42,10 @@
 			this.showResultMatrixBtn = new System.Windows.Forms.Button();
 			this.AddMatrixBtn = new System.Windows.Forms.Button();
 			this.resultMatrixContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
-			this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.customPanel1 = new ColorMatrixViewer.CustomPanel();
 			this.imageContextMenu.SuspendLayout();
 			this.leftColumnPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -53,6 +54,7 @@
 			this.splitContainer1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.resultMatrixContextMenu.SuspendLayout();
+			this.customPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// imageContextMenu
@@ -106,8 +108,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
-			this.splitContainer1.Panel1.AutoScroll = true;
-			this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel1);
+			this.splitContainer1.Panel1.Controls.Add(this.customPanel1);
 			this.splitContainer1.Panel1MinSize = 0;
 			// 
 			// splitContainer1.Panel2
@@ -116,7 +117,7 @@
 			this.splitContainer1.Panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseClick);
 			this.splitContainer1.Panel2MinSize = 0;
 			this.splitContainer1.Size = new System.Drawing.Size(313, 391);
-			this.splitContainer1.SplitterDistance = 253;
+			this.splitContainer1.SplitterDistance = 256;
 			this.splitContainer1.SplitterWidth = 1;
 			this.splitContainer1.TabIndex = 0;
 			// 
@@ -185,12 +186,19 @@
             this.saveToolStripMenuItem});
 			this.resultMatrixContextMenu.Name = "contextMenuStrip1";
 			this.resultMatrixContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.resultMatrixContextMenu.Size = new System.Drawing.Size(108, 26);
+			this.resultMatrixContextMenu.Size = new System.Drawing.Size(172, 48);
+			// 
+			// copyToClipboardToolStripMenuItem
+			// 
+			this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
+			this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.copyToClipboardToolStripMenuItem.Text = "Copy to Clipboard";
+			this.copyToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyToClipboardToolStripMenuItem_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
 			this.saveToolStripMenuItem.Text = "Save...";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
@@ -205,12 +213,15 @@
 			this.imageDiff1.TabIndex = 1;
 			this.imageDiff1.TabStop = false;
 			// 
-			// copyToClipboardToolStripMenuItem
+			// customPanel1
 			// 
-			this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
-			this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-			this.copyToClipboardToolStripMenuItem.Text = "Copy to Clipboard";
-			this.copyToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyToClipboardToolStripMenuItem_Click);
+			this.customPanel1.AutoScroll = true;
+			this.customPanel1.Controls.Add(this.tableLayoutPanel1);
+			this.customPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.customPanel1.Location = new System.Drawing.Point(0, 0);
+			this.customPanel1.Name = "customPanel1";
+			this.customPanel1.Size = new System.Drawing.Size(313, 256);
+			this.customPanel1.TabIndex = 4;
 			// 
 			// Form1
 			// 
@@ -232,6 +243,7 @@
 			this.splitContainer1.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
 			this.resultMatrixContextMenu.ResumeLayout(false);
+			this.customPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -253,6 +265,7 @@
 		private System.Windows.Forms.ContextMenuStrip resultMatrixContextMenu;
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
+		private CustomPanel customPanel1;
 	}
 }
 
