@@ -36,26 +36,25 @@
 			this.loadTheDefaultImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.leftColumnPanel = new System.Windows.Forms.Panel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.customPanel1 = new ColorMatrixViewer.CustomPanel();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.resultMatrixBox = new ColorMatrixViewer.MatrixBox();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.ClearMatricesBtn = new System.Windows.Forms.Button();
 			this.showResultMatrixBtn = new System.Windows.Forms.Button();
 			this.AddMatrixBtn = new System.Windows.Forms.Button();
 			this.resultMatrixContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageDiff1 = new ColorMatrixViewer.ImageDiff();
+			this.customPanel1 = new ColorMatrixViewer.CustomPanel();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.resultMatrixBox = new ColorMatrixViewer.MatrixBox();
 			this.imageContextMenu.SuspendLayout();
 			this.leftColumnPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
-			this.customPanel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.resultMatrixContextMenu.SuspendLayout();
+			this.customPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// imageContextMenu
@@ -118,46 +117,9 @@
 			this.splitContainer1.Panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseClick);
 			this.splitContainer1.Panel2MinSize = 0;
 			this.splitContainer1.Size = new System.Drawing.Size(313, 391);
-			this.splitContainer1.SplitterDistance = 277;
+			this.splitContainer1.SplitterDistance = 280;
 			this.splitContainer1.SplitterWidth = 1;
 			this.splitContainer1.TabIndex = 0;
-			// 
-			// customPanel1
-			// 
-			this.customPanel1.AutoScroll = true;
-			this.customPanel1.Controls.Add(this.tableLayoutPanel1);
-			this.customPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.customPanel1.Location = new System.Drawing.Point(0, 0);
-			this.customPanel1.Name = "customPanel1";
-			this.customPanel1.Size = new System.Drawing.Size(313, 277);
-			this.customPanel1.TabIndex = 4;
-			// 
-			// tableLayoutPanel1
-			// 
-			this.tableLayoutPanel1.AllowDrop = true;
-			this.tableLayoutPanel1.ColumnCount = 1;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.tableLayoutPanel1.RowCount = 1;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(293, 391);
-			this.tableLayoutPanel1.TabIndex = 3;
-			this.tableLayoutPanel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.tableLayoutPanel1_DragDrop);
-			this.tableLayoutPanel1.DragOver += new System.Windows.Forms.DragEventHandler(this.tableLayoutPanel1_DragOver);
-			this.tableLayoutPanel1.DragLeave += new System.EventHandler(this.tableLayoutPanel1_DragLeave);
-			// 
-			// resultMatrixBox
-			// 
-			this.resultMatrixBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.resultMatrixBox.Enabled = false;
-			this.resultMatrixBox.Location = new System.Drawing.Point(36, 3);
-			this.resultMatrixBox.Name = "resultMatrixBox";
-			this.resultMatrixBox.Size = new System.Drawing.Size(238, 88);
-			this.resultMatrixBox.TabIndex = 0;
-			this.resultMatrixBox.Text = "matrixBox1";
 			// 
 			// panel2
 			// 
@@ -204,8 +166,7 @@
 			// resultMatrixContextMenu
 			// 
 			this.resultMatrixContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToClipboardToolStripMenuItem,
-            this.saveToolStripMenuItem});
+            this.copyToClipboardToolStripMenuItem});
 			this.resultMatrixContextMenu.Name = "contextMenuStrip1";
 			this.resultMatrixContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.resultMatrixContextMenu.Size = new System.Drawing.Size(172, 48);
@@ -217,13 +178,6 @@
 			this.copyToClipboardToolStripMenuItem.Text = "Copy to Clipboard";
 			this.copyToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyToClipboardToolStripMenuItem_Click);
 			// 
-			// saveToolStripMenuItem
-			// 
-			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-			this.saveToolStripMenuItem.Text = "Save...";
-			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-			// 
 			// imageDiff1
 			// 
 			this.imageDiff1.ContextMenuStrip = this.imageContextMenu;
@@ -234,6 +188,43 @@
 			this.imageDiff1.SplitterPosition = 0.5D;
 			this.imageDiff1.TabIndex = 1;
 			this.imageDiff1.TabStop = false;
+			// 
+			// customPanel1
+			// 
+			this.customPanel1.AutoScroll = true;
+			this.customPanel1.Controls.Add(this.tableLayoutPanel1);
+			this.customPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.customPanel1.Location = new System.Drawing.Point(0, 0);
+			this.customPanel1.Name = "customPanel1";
+			this.customPanel1.Size = new System.Drawing.Size(313, 280);
+			this.customPanel1.TabIndex = 4;
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.AllowDrop = true;
+			this.tableLayoutPanel1.ColumnCount = 1;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+			this.tableLayoutPanel1.RowCount = 1;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(293, 391);
+			this.tableLayoutPanel1.TabIndex = 3;
+			this.tableLayoutPanel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.tableLayoutPanel1_DragDrop);
+			this.tableLayoutPanel1.DragOver += new System.Windows.Forms.DragEventHandler(this.tableLayoutPanel1_DragOver);
+			this.tableLayoutPanel1.DragLeave += new System.EventHandler(this.tableLayoutPanel1_DragLeave);
+			// 
+			// resultMatrixBox
+			// 
+			this.resultMatrixBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.resultMatrixBox.Enabled = false;
+			this.resultMatrixBox.Location = new System.Drawing.Point(36, 3);
+			this.resultMatrixBox.Name = "resultMatrixBox";
+			this.resultMatrixBox.Size = new System.Drawing.Size(238, 88);
+			this.resultMatrixBox.TabIndex = 0;
+			this.resultMatrixBox.Text = "matrixBox1";
 			// 
 			// Form1
 			// 
@@ -253,9 +244,9 @@
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
-			this.customPanel1.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
 			this.resultMatrixContextMenu.ResumeLayout(false);
+			this.customPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -275,7 +266,6 @@
 		private System.Windows.Forms.Button showResultMatrixBtn;
 		private MatrixBox resultMatrixBox;
 		private System.Windows.Forms.ContextMenuStrip resultMatrixContextMenu;
-		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
 		private CustomPanel customPanel1;
 		private System.Windows.Forms.Button ClearMatricesBtn;

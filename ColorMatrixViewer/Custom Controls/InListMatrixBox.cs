@@ -72,5 +72,11 @@ namespace ColorMatrixViewer
 			}
 		}
 
+		private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var resultString = Util.MatrixToString(matrixBox1.Matrix);
+			Clipboard.SetText(resultString);
+		}
+
 	}
 }
