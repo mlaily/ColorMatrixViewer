@@ -23,7 +23,7 @@ namespace ColorMatrixViewer
 			InitializeComponent();
 			var exampleMatrix = AddMatrixBox();
 			exampleMatrix.MatrixBox.SetMatrix(BuiltinMatrices.NegativeHueShift180Variation1);
-			splitContainer1.SplitterDistance = splitContainer1.Height - 100;
+			splitContainer1.SplitterDistance = splitContainer1.Height - 96;
 		}
 
 		void matrixBox_MatrixChanged(object sender, EventArgs e)

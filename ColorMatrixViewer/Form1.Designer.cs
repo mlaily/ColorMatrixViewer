@@ -115,7 +115,7 @@
 			this.splitContainer1.Panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseClick);
 			this.splitContainer1.Panel2MinSize = 0;
 			this.splitContainer1.Size = new System.Drawing.Size(313, 391);
-			this.splitContainer1.SplitterDistance = 295;
+			this.splitContainer1.SplitterDistance = 250;
 			this.splitContainer1.SplitterWidth = 1;
 			this.splitContainer1.TabIndex = 0;
 			// 
@@ -140,7 +140,7 @@
 			this.resultMatrixBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.resultMatrixBox.Enabled = false;
-			this.resultMatrixBox.Location = new System.Drawing.Point(36, 10);
+			this.resultMatrixBox.Location = new System.Drawing.Point(36, 49);
 			this.resultMatrixBox.Name = "resultMatrixBox";
 			this.resultMatrixBox.Size = new System.Drawing.Size(238, 88);
 			this.resultMatrixBox.TabIndex = 0;
