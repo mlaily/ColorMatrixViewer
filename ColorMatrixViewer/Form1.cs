@@ -152,11 +152,11 @@ namespace ColorMatrixViewer
 			splitContainer1.Panel2Collapsed = !splitContainer1.Panel2Collapsed;
 			if (splitContainer1.Panel2Collapsed)
 			{
-				showResultMatrixBtn.Text = "Show resulting matrix";
+				showResultMatrixBtn.Text = "Show result matrix";
 			}
 			else
 			{
-				showResultMatrixBtn.Text = "Hide resulting matrix";
+				showResultMatrixBtn.Text = "Hide result matrix";
 			}
 		}
 
