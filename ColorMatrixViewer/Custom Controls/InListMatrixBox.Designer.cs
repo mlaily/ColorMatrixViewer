@@ -118,7 +118,7 @@
 			this.toggleEnabledChk.AutoSize = true;
 			this.toggleEnabledChk.Checked = true;
 			this.toggleEnabledChk.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.toggleEnabledChk.Location = new System.Drawing.Point(262, 3);
+			this.toggleEnabledChk.Location = new System.Drawing.Point(262, 11);
 			this.toggleEnabledChk.MaximumSize = new System.Drawing.Size(25, 25);
 			this.toggleEnabledChk.MinimumSize = new System.Drawing.Size(25, 25);
 			this.toggleEnabledChk.Name = "toggleEnabledChk";
