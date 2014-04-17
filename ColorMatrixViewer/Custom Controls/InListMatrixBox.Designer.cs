@@ -38,8 +38,9 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.removeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.matrixBox1 = new ColorMatrixViewer.MatrixBox();
 			this.gripPanel = new ColorMatrixViewer.GripPanel();
+			this.matrixBox1 = new ColorMatrixViewer.MatrixBox();
+			this.loadFromClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -57,6 +58,7 @@
 			// 
 			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem,
+            this.loadFromClipboardToolStripMenuItem,
             this.disableEnableToolStripMenuItem,
             this.toolStripSeparator2,
             this.copyToClipboardToolStripMenuItem,
@@ -64,60 +66,52 @@
             this.removeToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
 			this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.contextMenuStrip1.Size = new System.Drawing.Size(172, 126);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(185, 148);
 			// 
 			// loadToolStripMenuItem
 			// 
 			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-			this.loadToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.loadToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
 			this.loadToolStripMenuItem.Text = "Load";
 			// 
 			// disableEnableToolStripMenuItem
 			// 
 			this.disableEnableToolStripMenuItem.Name = "disableEnableToolStripMenuItem";
-			this.disableEnableToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.disableEnableToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
 			this.disableEnableToolStripMenuItem.Text = "Disable";
 			this.disableEnableToolStripMenuItem.Click += new System.EventHandler(this.disableEnableToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(168, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
 			// 
 			// copyToClipboardToolStripMenuItem
 			// 
 			this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
-			this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
 			this.copyToClipboardToolStripMenuItem.Text = "Copy to Clipboard";
 			this.copyToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyToClipboardToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(168, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(181, 6);
 			// 
 			// removeToolStripMenuItem
 			// 
 			this.removeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeToolStripMenuItem1});
 			this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-			this.removeToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.removeToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
 			this.removeToolStripMenuItem.Text = "Remove";
 			// 
 			// removeToolStripMenuItem1
 			// 
 			this.removeToolStripMenuItem1.Name = "removeToolStripMenuItem1";
-			this.removeToolStripMenuItem1.Size = new System.Drawing.Size(120, 22);
+			this.removeToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
 			this.removeToolStripMenuItem1.Text = "Remove!";
 			this.removeToolStripMenuItem1.Click += new System.EventHandler(this.removeToolStripMenuItem1_Click);
-			// 
-			// matrixBox1
-			// 
-			this.matrixBox1.Location = new System.Drawing.Point(21, 3);
-			this.matrixBox1.Name = "matrixBox1";
-			this.matrixBox1.Size = new System.Drawing.Size(238, 88);
-			this.matrixBox1.TabIndex = 0;
-			this.matrixBox1.Text = "matrixBox1";
 			// 
 			// gripPanel
 			// 
@@ -127,6 +121,21 @@
 			this.gripPanel.Size = new System.Drawing.Size(15, 88);
 			this.gripPanel.TabIndex = 3;
 			this.gripPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gripPanel_MouseDown);
+			// 
+			// matrixBox1
+			// 
+			this.matrixBox1.Location = new System.Drawing.Point(21, 3);
+			this.matrixBox1.Name = "matrixBox1";
+			this.matrixBox1.Size = new System.Drawing.Size(238, 88);
+			this.matrixBox1.TabIndex = 0;
+			this.matrixBox1.Text = "matrixBox1";
+			// 
+			// loadFromClipboardToolStripMenuItem
+			// 
+			this.loadFromClipboardToolStripMenuItem.Name = "loadFromClipboardToolStripMenuItem";
+			this.loadFromClipboardToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+			this.loadFromClipboardToolStripMenuItem.Text = "Load from Clipboard";
+			this.loadFromClipboardToolStripMenuItem.Click += new System.EventHandler(this.loadFromClipboardToolStripMenuItem_Click);
 			// 
 			// InListMatrixBox
 			// 
@@ -155,5 +164,6 @@
 		private GripPanel gripPanel;
 		private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem loadFromClipboardToolStripMenuItem;
 	}
 }

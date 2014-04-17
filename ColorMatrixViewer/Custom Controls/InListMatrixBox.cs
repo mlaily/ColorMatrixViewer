@@ -78,5 +78,23 @@ namespace ColorMatrixViewer
 			Clipboard.SetText(resultString);
 		}
 
+		private void loadFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			string raw = Clipboard.GetText();
+			if (!string.IsNullOrWhiteSpace(raw))
+			{
+				try
+				{
+					var matrix = Util.ParseMatrix(raw);
+					this.matrixBox1.SetMatrix(matrix);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error! " + ex.Message);
+				}
+			}
+
+		}
+
 	}
 }
