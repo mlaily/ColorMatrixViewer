@@ -50,17 +50,9 @@ namespace ColorMatrixViewer
 			}
 		}
 
-		private void disableEnableToolStripMenuItem_Click(object sender, EventArgs e)
+		private void toggleEnabledChk_CheckedChanged(object sender, EventArgs e)
 		{
 			matrixBox1.ToggleEnabled();
-			if (matrixBox1.Enabled)
-			{
-				disableEnableToolStripMenuItem.Text = "Disable";
-			}
-			else
-			{
-				disableEnableToolStripMenuItem.Text = "Enable";
-			}
 		}
 
 		private void gripPanel_MouseDown(object sender, MouseEventArgs e)

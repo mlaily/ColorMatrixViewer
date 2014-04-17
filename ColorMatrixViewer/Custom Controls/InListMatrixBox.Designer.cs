@@ -32,21 +32,21 @@
 			this.plusBtn = new System.Windows.Forms.Button();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.disableEnableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.removeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.loadFromClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toggleEnabledChk = new System.Windows.Forms.CheckBox();
 			this.gripPanel = new ColorMatrixViewer.GripPanel();
 			this.matrixBox1 = new ColorMatrixViewer.MatrixBox();
-			this.loadFromClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// plusBtn
 			// 
-			this.plusBtn.Location = new System.Drawing.Point(262, 35);
+			this.plusBtn.Location = new System.Drawing.Point(262, 58);
 			this.plusBtn.Name = "plusBtn";
 			this.plusBtn.Size = new System.Drawing.Size(25, 25);
 			this.plusBtn.TabIndex = 2;
@@ -59,27 +59,19 @@
 			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem,
             this.loadFromClipboardToolStripMenuItem,
-            this.disableEnableToolStripMenuItem,
             this.toolStripSeparator2,
             this.copyToClipboardToolStripMenuItem,
             this.toolStripSeparator1,
             this.removeToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
 			this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.contextMenuStrip1.Size = new System.Drawing.Size(185, 148);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(185, 104);
 			// 
 			// loadToolStripMenuItem
 			// 
 			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
 			this.loadToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
 			this.loadToolStripMenuItem.Text = "Load";
-			// 
-			// disableEnableToolStripMenuItem
-			// 
-			this.disableEnableToolStripMenuItem.Name = "disableEnableToolStripMenuItem";
-			this.disableEnableToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-			this.disableEnableToolStripMenuItem.Text = "Disable";
-			this.disableEnableToolStripMenuItem.Click += new System.EventHandler(this.disableEnableToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
@@ -109,9 +101,32 @@
 			// removeToolStripMenuItem1
 			// 
 			this.removeToolStripMenuItem1.Name = "removeToolStripMenuItem1";
-			this.removeToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.removeToolStripMenuItem1.Size = new System.Drawing.Size(120, 22);
 			this.removeToolStripMenuItem1.Text = "Remove!";
 			this.removeToolStripMenuItem1.Click += new System.EventHandler(this.removeToolStripMenuItem1_Click);
+			// 
+			// loadFromClipboardToolStripMenuItem
+			// 
+			this.loadFromClipboardToolStripMenuItem.Name = "loadFromClipboardToolStripMenuItem";
+			this.loadFromClipboardToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+			this.loadFromClipboardToolStripMenuItem.Text = "Load from Clipboard";
+			this.loadFromClipboardToolStripMenuItem.Click += new System.EventHandler(this.loadFromClipboardToolStripMenuItem_Click);
+			// 
+			// toggleEnabledChk
+			// 
+			this.toggleEnabledChk.Appearance = System.Windows.Forms.Appearance.Button;
+			this.toggleEnabledChk.AutoSize = true;
+			this.toggleEnabledChk.Checked = true;
+			this.toggleEnabledChk.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.toggleEnabledChk.Location = new System.Drawing.Point(262, 3);
+			this.toggleEnabledChk.MaximumSize = new System.Drawing.Size(25, 25);
+			this.toggleEnabledChk.MinimumSize = new System.Drawing.Size(25, 25);
+			this.toggleEnabledChk.Name = "toggleEnabledChk";
+			this.toggleEnabledChk.Size = new System.Drawing.Size(25, 25);
+			this.toggleEnabledChk.TabIndex = 4;
+			this.toggleEnabledChk.Text = "✓ ";
+			this.toggleEnabledChk.UseVisualStyleBackColor = true;
+			this.toggleEnabledChk.CheckedChanged += new System.EventHandler(this.toggleEnabledChk_CheckedChanged);
 			// 
 			// gripPanel
 			// 
@@ -130,17 +145,11 @@
 			this.matrixBox1.TabIndex = 0;
 			this.matrixBox1.Text = "matrixBox1";
 			// 
-			// loadFromClipboardToolStripMenuItem
-			// 
-			this.loadFromClipboardToolStripMenuItem.Name = "loadFromClipboardToolStripMenuItem";
-			this.loadFromClipboardToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-			this.loadFromClipboardToolStripMenuItem.Text = "Load from Clipboard";
-			this.loadFromClipboardToolStripMenuItem.Click += new System.EventHandler(this.loadFromClipboardToolStripMenuItem_Click);
-			// 
 			// InListMatrixBox
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.toggleEnabledChk);
 			this.Controls.Add(this.gripPanel);
 			this.Controls.Add(this.plusBtn);
 			this.Controls.Add(this.matrixBox1);
@@ -148,6 +157,7 @@
 			this.Size = new System.Drawing.Size(290, 95);
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -160,10 +170,10 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem1;
-		private System.Windows.Forms.ToolStripMenuItem disableEnableToolStripMenuItem;
 		private GripPanel gripPanel;
 		private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem loadFromClipboardToolStripMenuItem;
+		private System.Windows.Forms.CheckBox toggleEnabledChk;
 	}
 }
