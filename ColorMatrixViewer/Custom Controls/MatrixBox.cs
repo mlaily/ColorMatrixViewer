@@ -156,6 +156,12 @@ namespace ColorMatrixViewer
 			}
 		}
 
+		public void ClearUndoRedo()
+		{
+			UndoStack.Clear();
+			RedoStack.Clear();
+		}
+
 		private void InitializeMatrixTextboxes(Control control, Point location)
 		{
 			this.suspendAutoRefresh = true;

@@ -23,6 +23,7 @@ namespace ColorMatrixViewer
 			InitializeComponent();
 			var exampleMatrix = AddMatrixBox();
 			exampleMatrix.MatrixBox.SetMatrix(BuiltinMatrices.NegativeHueShift180Variation1);
+			exampleMatrix.MatrixBox.ClearUndoRedo();
 			splitContainer1.SplitterDistance = splitContainer1.Height - 96;
 		}
 
