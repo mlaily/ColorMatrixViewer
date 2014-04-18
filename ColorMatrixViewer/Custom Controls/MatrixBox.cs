@@ -31,22 +31,46 @@ namespace ColorMatrixViewer
 
 		private bool suspendAutoRefresh = false;
 
-		private struct UndoAction
+		public class Transition<T>
+			where T : class
 		{
-			public TextBox TextBox { get; private set; }
-			public string Text { get; private set; }
+			public T From { get; private set; }
+			public T To { get; private set; }
 
-			public UndoAction(TextBox textBox, string text)
-				: this()
+			protected Action<T> Setter { get; set; }
+
+			/// <summary>
+			/// apply and return the undo action.
+			/// </summary>
+			public Transition<T> Undo()
 			{
-				this.TextBox = textBox;
-				this.Text = text;
+				Setter(From);
+				return new Transition<T>(To, From, Setter);
+			}
+
+			public Transition(T from, T to, Action<T> setter)
+			{
+				this.From = from;
+				this.To = to;
+				this.Setter = setter;
 			}
 		}
 
+		private Action<string> GetTextBoxSetter(TextBox textBox)
+		{
+			return (x) =>
+			{
+				IsUndoRedoTextChange = true;
+				textBox.Text = x;
+				IsUndoRedoTextChange = false;
+				textBox.Focus();
+				textBox.SelectAll();
+			};
+		}
+
 		private bool IsUndoRedoTextChange = false;
-		private Stack<UndoAction> UndoStack = new Stack<UndoAction>();
-		private Stack<UndoAction> RedoStack = new Stack<UndoAction>();
+		private Stack<Transition<string>> UndoStack = new Stack<Transition<string>>();
+		private Stack<Transition<string>> RedoStack = new Stack<Transition<string>>();
 
 		public event EventHandler MatrixChanged;
 		protected void OnMatrixChanged()
@@ -77,43 +101,27 @@ namespace ColorMatrixViewer
 		{
 			if (e.Control)
 			{
+				Stack<Transition<string>> stack, otherStack;
 				switch (e.KeyCode)
 				{
 					case Keys.Z:
-						if (UndoStack.Count > 0)
-						{
-							//remove current action
-							var action = UndoStack.Pop();
-							//save the text
-							var redoText = action.TextBox.Text;
-							//indicate that the next text changed event must not create an undo action
-							IsUndoRedoTextChange = true;
-							action.TextBox.Text = action.Text;
-							IsUndoRedoTextChange = false;
-							action.TextBox.Focus();
-							action.TextBox.SelectAll();
-							//add a redo action
-							RedoStack.Push(new UndoAction(action.TextBox, redoText));
-						}
-						e.Handled = true;
-						e.SuppressKeyPress = true;
+						stack = UndoStack;
+						otherStack = RedoStack;
 						break;
 					case Keys.Y:
-						if (RedoStack.Count > 0)
-						{
-							var action = RedoStack.Pop();
-							var undoText = action.TextBox.Text;
-							IsUndoRedoTextChange = true;
-							action.TextBox.Text = action.Text;
-							IsUndoRedoTextChange = false;
-							action.TextBox.Focus();
-							action.TextBox.SelectAll();
-							UndoStack.Push(new UndoAction(action.TextBox, undoText));
-						}
-						e.Handled = true;
-						e.SuppressKeyPress = true;
+						stack = RedoStack;
+						otherStack = UndoStack;
 						break;
+					default: return;
 				}
+				if (stack.Count > 0)
+				{
+					var action = stack.Pop();
+					var undoAction = action.Undo();
+					otherStack.Push(undoAction);
+				}
+				e.Handled = true;
+				e.SuppressKeyPress = true;
 			}
 		}
 
@@ -143,7 +151,7 @@ namespace ColorMatrixViewer
 						if (!IsUndoRedoTextChange)
 						{
 							RedoStack.Clear(); //any user change reset the redo stack
-							UndoStack.Push(new UndoAction(newTextBox, (string)newTextBox.Tag));
+							UndoStack.Push(new Transition<string>((string)newTextBox.Tag, newTextBox.Text, GetTextBoxSetter(newTextBox)));
 							newTextBox.Tag = newTextBox.Text;
 						}
 						if (!this.suspendAutoRefresh)
