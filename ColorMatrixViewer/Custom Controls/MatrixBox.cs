@@ -103,6 +103,37 @@ namespace ColorMatrixViewer
 			this.KeyDown += MatrixBox_KeyDown;
 		}
 
+		private void InitializeMatrixTextboxes(Control control, Point location)
+		{
+			this.suspendAutoRefresh = true;
+			textboxes = new TextBox[5, 5];
+			const int xSpacing = 47, ySpacing = 17;
+			for (int i = 0; i < 5; i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					var newTextBox = new TextBox();
+					newTextBox.Parent = control;
+					newTextBox.Location = new Point(location.X + j * xSpacing, location.Y + i * ySpacing);
+					newTextBox.Width = 50;
+					newTextBox.Height = 20;
+					newTextBox.TextAlign = HorizontalAlignment.Center;
+					newTextBox.Tag = ""; //will always contain the previous text before a text changed event
+					//event handlers
+					newTextBox.KeyDown += MatrixBox_KeyDown;
+					newTextBox.KeyPress +=
+						(o, e) => { if (e.KeyChar == ',') { e.Handled = true; newTextBox.SelectedText = "."; } };
+					newTextBox.TextChanged += GetTextBoxTextChangedHandler(newTextBox, i, j);
+					newTextBox.MouseWheel += GetTextBoxMouseWheelHandler(newTextBox);
+
+					textboxes[i, j] = newTextBox;
+				}
+			}
+			this.suspendAutoRefresh = false;
+		}
+
+		#region Event Handlers
+
 		void MatrixBox_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Control)
@@ -132,85 +163,56 @@ namespace ColorMatrixViewer
 			}
 		}
 
-		public void ClearUndoRedo()
-		{
-			UndoStack.Clear();
-			RedoStack.Clear();
-		}
+		#region Text Boxes Events
 
-		private void InitializeMatrixTextboxes(Control control, Point location)
+		private EventHandler GetTextBoxTextChangedHandler(TextBox textbox, int i, int j)
 		{
-			this.suspendAutoRefresh = true;
-			textboxes = new TextBox[5, 5];
-			const int xSpacing = 47, ySpacing = 17;
-			for (int i = 0; i < 5; i++)
+			return (o, e) =>
 			{
-				for (int j = 0; j < 5; j++)
+				textbox.ClearUndo();
+				if (!IsUndoRedoTextChange)
 				{
-					//Capture the i and j variables for the closure to work correctly...
-					int iCopy = i, jCopy = j;
-
-					var newTextBox = new TextBox();
-					newTextBox.Parent = control;
-					newTextBox.Location = new Point(location.X + j * xSpacing, location.Y + i * ySpacing);
-					newTextBox.Width = 50;
-					newTextBox.Height = 20;
-					newTextBox.TextAlign = HorizontalAlignment.Center;
-					newTextBox.Tag = ""; //will always contain the previous text before a text changed event
-
-					newTextBox.KeyDown += MatrixBox_KeyDown;
-
-					newTextBox.KeyPress += (o, e) =>
-					{
-						if (e.KeyChar == ',')
-						{
-							e.Handled = true; newTextBox.SelectedText = ".";
-						}
-					};
-
-					newTextBox.TextChanged += (o, e) =>
-					{
-						newTextBox.ClearUndo();
-						if (!IsUndoRedoTextChange)
-						{
-							RedoStack.Clear(); //any user change reset the redo stack
-							UndoStack.Push(new Transition<string>((string)newTextBox.Tag, newTextBox.Text, GetTextBoxSetter(newTextBox)));
-							newTextBox.Tag = newTextBox.Text;
-						}
-						if (!this.suspendAutoRefresh)
-						{
-							//try to refresh the corresponding matrix cell
-							if (RefreshMatrix(iCopy, jCopy, throwsException: false))
-							{
-								OnMatrixChanged();
-							}
-						}
-					};
-
-					newTextBox.MouseWheel += (o, e) =>
-					{
-						if (ModifierKeys != Keys.None)
-						{
-							decimal parsed = 0; //decimal type for exact decimal rounding
-							if (!decimal.TryParse(newTextBox.Text,
-								System.Globalization.NumberStyles.Float,
-								System.Globalization.CultureInfo.InvariantCulture, out parsed))
-								parsed = 0;
-							decimal increment = 1;
-							if (ModifierKeys == Keys.Control)
-							{
-								increment = .1m;
-							}
-							parsed += increment * (e.Delta / (Math.Abs(e.Delta)));
-							//10 significan figures
-							newTextBox.Text = FloatToString(parsed);
-						}
-					};
-					textboxes[i, j] = newTextBox;
+					RedoStack.Clear(); //any user change reset the redo stack
+					UndoStack.Push(new Transition<string>((string)textbox.Tag, textbox.Text, GetTextBoxSetter(textbox)));
+					textbox.Tag = textbox.Text;
 				}
-			}
-			this.suspendAutoRefresh = false;
+				if (!this.suspendAutoRefresh)
+				{
+					//try to refresh the corresponding matrix cell
+					if (RefreshMatrix(i, j, throwsException: false))
+					{
+						OnMatrixChanged();
+					}
+				}
+			};
 		}
+
+		private MouseEventHandler GetTextBoxMouseWheelHandler(TextBox textbox)
+		{
+			return (o, e) =>
+			{
+				if (ModifierKeys != Keys.None)
+				{
+					decimal parsed = 0; //decimal type for exact decimal rounding
+					if (!decimal.TryParse(textbox.Text,
+						System.Globalization.NumberStyles.Float,
+						System.Globalization.CultureInfo.InvariantCulture, out parsed))
+						parsed = 0;
+					decimal increment = 1;
+					if (ModifierKeys == Keys.Control)
+					{
+						increment = .1m;
+					}
+					parsed += increment * (e.Delta / (Math.Abs(e.Delta)));
+					//10 significan figures
+					textbox.Text = FloatToString(parsed);
+				}
+			};
+		}
+
+		#endregion
+
+		#endregion
 
 		#region Public Methods
 
@@ -280,6 +282,12 @@ namespace ColorMatrixViewer
 		{
 			this.Enabled = !this.Enabled;
 			OnMatrixChanged();
+		}
+
+		public void ClearUndoRedo()
+		{
+			UndoStack.Clear();
+			RedoStack.Clear();
 		}
 
 		#endregion
