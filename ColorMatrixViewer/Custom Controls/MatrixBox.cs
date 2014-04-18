@@ -98,12 +98,12 @@ namespace ColorMatrixViewer
 		public MatrixBox()
 			: base()
 		{
-			InitializeMatrixTextboxes(this, new Point(0, 0));
+			InitializeMatrixTextboxes();
 			ResetMatrix();
 			this.KeyDown += MatrixBox_KeyDown;
 		}
 
-		private void InitializeMatrixTextboxes(Control control, Point location)
+		private void InitializeMatrixTextboxes()
 		{
 			this.suspendAutoRefresh = true;
 			textboxes = new TextBox[5, 5];
@@ -113,8 +113,8 @@ namespace ColorMatrixViewer
 				for (int j = 0; j < 5; j++)
 				{
 					var newTextBox = new TextBox();
-					newTextBox.Parent = control;
-					newTextBox.Location = new Point(location.X + j * xSpacing, location.Y + i * ySpacing);
+					newTextBox.Parent = this;
+					newTextBox.Location = new Point(j * xSpacing, i * ySpacing);
 					newTextBox.Width = 50;
 					newTextBox.Height = 20;
 					newTextBox.TextAlign = HorizontalAlignment.Center;
