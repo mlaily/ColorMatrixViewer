@@ -21,6 +21,7 @@ namespace ColorMatrixViewer
 		public Form1()
 		{
 			InitializeComponent();
+			this.Text += " - " + Application.ProductVersion;
 			var exampleMatrix = AddMatrixBox();
 			exampleMatrix.MatrixBox.SetMatrix(BuiltinMatrices.NegativeHueShift180Variation1);
 			exampleMatrix.MatrixBox.ClearUndoRedo();
