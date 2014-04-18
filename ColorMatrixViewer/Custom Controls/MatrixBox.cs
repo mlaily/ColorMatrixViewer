@@ -20,18 +20,18 @@ namespace ColorMatrixViewer
 			{
 				return _Matrix;
 			}
-			private set
-			{
-				_Matrix = value;
-				RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
-			}
+
 		}
 
 		private TextBox[,] textboxes;
 
 		private bool suspendAutoRefresh = false;
 
-		public class Transition<T>
+		public interface ITransition
+		{
+			ITransition Undo();
+		}
+		public class Transition<T> : ITransition
 			where T : class
 		{
 			public T From { get; private set; }
@@ -54,8 +54,17 @@ namespace ColorMatrixViewer
 				this.To = to;
 				this.Setter = setter;
 			}
+
+			ITransition ITransition.Undo()
+			{
+				return Undo();
+			}
 		}
 
+		/// <summary>
+		/// Used to undo/redo a textbox text changed
+		/// </summary>
+		/// <param name="textBox"></param>
 		private Action<string> GetTextBoxSetter(TextBox textBox)
 		{
 			return (x) =>
@@ -68,9 +77,31 @@ namespace ColorMatrixViewer
 			};
 		}
 
+		/// <summary>
+		/// Used to undo/redo the complete matrix
+		/// </summary>
+		private Action<float[,]> GetMatrixSetter()
+		{
+			return (x) =>
+			{
+				IsUndoRedoTextChange = true;
+				_Matrix = new float[5, 5];
+				for (int i = 0; i < Matrix.GetLength(0); i++)
+				{
+					for (int j = 0; j < Matrix.GetLength(1); j++)
+					{
+						Matrix[i, j] = x[i, j];
+						textboxes[i, j].Tag = FloatToString(Matrix[i, j]);
+					}
+				}
+				RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
+				IsUndoRedoTextChange = false;
+			};
+		}
+
 		private bool IsUndoRedoTextChange = false;
-		private Stack<Transition<string>> UndoStack = new Stack<Transition<string>>();
-		private Stack<Transition<string>> RedoStack = new Stack<Transition<string>>();
+		private Stack<ITransition> UndoStack = new Stack<ITransition>();
+		private Stack<ITransition> RedoStack = new Stack<ITransition>();
 
 		public event EventHandler MatrixChanged;
 		protected void OnMatrixChanged()
@@ -101,7 +132,7 @@ namespace ColorMatrixViewer
 		{
 			if (e.Control)
 			{
-				Stack<Transition<string>> stack, otherStack;
+				Stack<ITransition> stack, otherStack;
 				switch (e.KeyCode)
 				{
 					case Keys.Z:
@@ -179,7 +210,7 @@ namespace ColorMatrixViewer
 							}
 							parsed += increment * (e.Delta / (Math.Abs(e.Delta)));
 							//10 significan figures
-							newTextBox.Text = parsed.ToString("g10", System.Globalization.CultureInfo.InvariantCulture);
+							newTextBox.Text = FloatToString(parsed);
 						}
 					};
 					textboxes[i, j] = newTextBox;
@@ -200,16 +231,17 @@ namespace ColorMatrixViewer
 		public void ResetMatrix()
 		{
 			this.suspendAutoRefresh = true;
-			//do not use the setter to avoid firing a matrix changed event for nothing (the event will be fired at the end of the reset)
+			bool firstInitialization = this.Matrix == null;
+			var previous = Matrix;
+			//do not use the Matrix setter to avoid firing a matrix changed event for nothing each time
+			//(the event will be fired at the end of the reset)
 			_Matrix = new float[5, 5];
-			for (int i = 0; i < Matrix.GetLength(0); i++)
+			GetMatrixSetter()(BuiltinMatrices.Identity);
+			if (!firstInitialization)
 			{
-				for (int j = 0; j < Matrix.GetLength(1); j++)
-				{
-					Matrix[i, j] = BuiltinMatrices.Identity[i, j];
-				}
+				RedoStack.Clear(); //any user change reset the redo stack
+				UndoStack.Push(new Transition<float[,]>(previous, BuiltinMatrices.Identity, GetMatrixSetter()));
 			}
-			RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
 			this.suspendAutoRefresh = false;
 		}
 
@@ -228,14 +260,11 @@ namespace ColorMatrixViewer
 				throw new ArgumentException("The matrix must be a 5x5 matrix!", "matrix");
 			}
 			this.suspendAutoRefresh = true;
-			for (int i = 0; i < Matrix.GetLength(0); i++)
-			{
-				for (int j = 0; j < Matrix.GetLength(1); j++)
-				{
-					Matrix[i, j] = matrix[i, j];
-				}
-			}
-			RefreshMatrixOrTextBoxes(RefreshDirection.FromMatrix);
+			var previous = this.Matrix ?? BuiltinMatrices.Identity;
+			//actually change the matrix (and update the text boxes)
+			GetMatrixSetter()(matrix);
+			RedoStack.Clear(); //any user change reset the redo stack
+			UndoStack.Push(new Transition<float[,]>(previous, matrix, GetMatrixSetter()));
 			this.suspendAutoRefresh = false;
 		}
 
@@ -304,13 +333,22 @@ namespace ColorMatrixViewer
 			return different;
 		}
 
+		private static string FloatToString(float value)
+		{
+			return FloatToString((decimal)value);
+		}
+		private static string FloatToString(decimal value)
+		{
+			return value.ToString("g10", System.Globalization.CultureInfo.InvariantCulture);
+		}
+
 		/// <summary>
 		/// Refresh a single text box.
 		/// Returns true if any change was actually made
 		/// </summary>
 		private bool RefreshTextBox(int i, int j)
 		{
-			string text = ((decimal)Matrix[i, j]).ToString("g10", System.Globalization.CultureInfo.InvariantCulture);
+			string text = FloatToString(Matrix[i, j]);
 			if (textboxes[i, j].Text != text)
 			{
 				textboxes[i, j].Text = text;
