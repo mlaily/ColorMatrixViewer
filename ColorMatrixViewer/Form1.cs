@@ -32,7 +32,7 @@ using System.Windows.Forms;
 
 namespace ColorMatrixViewer
 {
-	public partial class Form1 : Form
+	public partial class Form1 : FormWithSystemMenu
 	{
 
 		private int draggingPositionY;
@@ -47,6 +47,12 @@ namespace ColorMatrixViewer
 			exampleMatrix.MatrixBox.SetMatrix(BuiltinMatrices.NegativeHueShift180Variation1);
 			exampleMatrix.MatrixBox.ClearUndoRedo();
 			splitContainer1.SplitterDistance = splitContainer1.Height - 96;
+
+			try
+			{
+				this.AddCustomSystemMenuItem("About", () => MessageBox.Show("Copyright Melvyn Laily - arcanesanctum.net"));
+			}
+			catch (Exception) { } //not a big deal if it doesn't work...
 		}
 
 		private void ApplyMatrix()
