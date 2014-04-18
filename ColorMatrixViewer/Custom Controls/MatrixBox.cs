@@ -20,46 +20,30 @@ namespace ColorMatrixViewer
 			{
 				return _Matrix;
 			}
-
 		}
 
 		private TextBox[,] textboxes;
 
+		//magic numbers, from trial and error...
+		protected override Size DefaultSize { get { return new Size(238, 88); } }
+		protected override Size DefaultMaximumSize { get { return DefaultSize; } }
+		protected override Size DefaultMinimumSize { get { return DefaultSize; } }
+		public override Size MaximumSize { get { return DefaultSize; } }
+		public override Size MinimumSize { get { return DefaultSize; } }
+
+		#region Undo/Redo declarations
+
+		/// <summary>
+		/// When set to true, prevent the text boxes to fire MatrixChanged events.
+		/// </summary>
 		private bool suspendAutoRefresh = false;
+		/// <summary>
+		/// When set to true, prevent the creation of a redo action for the current operations.
+		/// </summary>
+		private bool IsUndoRedoTextChange = false;
 
-		public interface ITransition
-		{
-			ITransition Undo();
-		}
-		public class Transition<T> : ITransition
-			where T : class
-		{
-			public T From { get; private set; }
-			public T To { get; private set; }
-
-			protected Action<T> Setter { get; set; }
-
-			/// <summary>
-			/// apply and return the undo action.
-			/// </summary>
-			public Transition<T> Undo()
-			{
-				Setter(From);
-				return new Transition<T>(To, From, Setter);
-			}
-
-			public Transition(T from, T to, Action<T> setter)
-			{
-				this.From = from;
-				this.To = to;
-				this.Setter = setter;
-			}
-
-			ITransition ITransition.Undo()
-			{
-				return Undo();
-			}
-		}
+		private Stack<ITransition> UndoStack = new Stack<ITransition>();
+		private Stack<ITransition> RedoStack = new Stack<ITransition>();
 
 		/// <summary>
 		/// Used to undo/redo a textbox text changed
@@ -99,10 +83,6 @@ namespace ColorMatrixViewer
 			};
 		}
 
-		private bool IsUndoRedoTextChange = false;
-		private Stack<ITransition> UndoStack = new Stack<ITransition>();
-		private Stack<ITransition> RedoStack = new Stack<ITransition>();
-
 		public event EventHandler MatrixChanged;
 		protected void OnMatrixChanged()
 		{
@@ -113,12 +93,7 @@ namespace ColorMatrixViewer
 			}
 		}
 
-		//magic numbers, from trial and error...
-		protected override Size DefaultSize { get { return new Size(238, 88); } }
-		protected override Size DefaultMaximumSize { get { return DefaultSize; } }
-		protected override Size DefaultMinimumSize { get { return DefaultSize; } }
-		public override Size MaximumSize { get { return DefaultSize; } }
-		public override Size MinimumSize { get { return DefaultSize; } }
+		#endregion
 
 		public MatrixBox()
 			: base()
@@ -132,6 +107,7 @@ namespace ColorMatrixViewer
 		{
 			if (e.Control)
 			{
+				//Perform the undo redo operations on the appropriate stacks when pressing CTRL+Z or CTRL+Y
 				Stack<ITransition> stack, otherStack;
 				switch (e.KeyCode)
 				{
@@ -171,6 +147,9 @@ namespace ColorMatrixViewer
 			{
 				for (int j = 0; j < 5; j++)
 				{
+					//Capture the i and j variables for the closure to work correctly...
+					int iCopy = i, jCopy = j;
+
 					var newTextBox = new TextBox();
 					newTextBox.Parent = control;
 					newTextBox.Location = new Point(location.X + j * xSpacing, location.Y + i * ySpacing);
@@ -178,10 +157,17 @@ namespace ColorMatrixViewer
 					newTextBox.Height = 20;
 					newTextBox.TextAlign = HorizontalAlignment.Center;
 					newTextBox.Tag = ""; //will always contain the previous text before a text changed event
+
 					newTextBox.KeyDown += MatrixBox_KeyDown;
-					newTextBox.KeyPress += (o, e) => { if (e.KeyChar == ',') { e.Handled = true; newTextBox.SelectedText = "."; } };
-					//Capture the i and j variables for the closure to work correctly...
-					int iCopy = i, jCopy = j;
+
+					newTextBox.KeyPress += (o, e) =>
+					{
+						if (e.KeyChar == ',')
+						{
+							e.Handled = true; newTextBox.SelectedText = ".";
+						}
+					};
+
 					newTextBox.TextChanged += (o, e) =>
 					{
 						newTextBox.ClearUndo();
@@ -200,6 +186,7 @@ namespace ColorMatrixViewer
 							}
 						}
 					};
+
 					newTextBox.MouseWheel += (o, e) =>
 					{
 						if (ModifierKeys != Keys.None)
@@ -225,11 +212,7 @@ namespace ColorMatrixViewer
 			this.suspendAutoRefresh = false;
 		}
 
-		public void ToggleEnabled()
-		{
-			this.Enabled = !this.Enabled;
-			OnMatrixChanged();
-		}
+		#region Public Methods
 
 		/// <summary>
 		/// Reset the matrix to the identity matrix
@@ -274,29 +257,41 @@ namespace ColorMatrixViewer
 			this.suspendAutoRefresh = false;
 		}
 
-		public float this[int i, int j]
+		//TODO: choose between the indexer and the Matrix property...
+		//public float this[int i, int j]
+		//{
+		//	set
+		//	{
+		//		if (i >= 5 || j >= 5)
+		//		{
+		//			throw new IndexOutOfRangeException("i or j was less than 0 or greater than 4!");
+		//		}
+		//		this.suspendAutoRefresh = true;
+		//		Matrix[i, j] = value;
+		//		if (RefreshTextBox(i, j))
+		//		{
+		//			OnMatrixChanged();
+		//		}
+		//		this.suspendAutoRefresh = false;
+		//	}
+		//}
+
+		public void ToggleEnabled()
 		{
-			set
-			{
-				if (i >= 5 || j >= 5)
-				{
-					throw new IndexOutOfRangeException("i or j was less than 0 or greater than 4!");
-				}
-				this.suspendAutoRefresh = true;
-				Matrix[i, j] = value;
-				if (RefreshTextBox(i, j))
-				{
-					OnMatrixChanged();
-				}
-				this.suspendAutoRefresh = false;
-			}
+			this.Enabled = !this.Enabled;
+			OnMatrixChanged();
 		}
+
+		#endregion
+
+		#region Matrix <-> Text Boxes refresh logic
 
 		private enum RefreshDirection
 		{
 			FromMatrix,
 			FromTextboxes,
 		}
+
 		/// <summary>
 		/// Returns true if any change was actually made
 		/// </summary>
@@ -337,15 +332,6 @@ namespace ColorMatrixViewer
 				OnMatrixChanged();
 			}
 			return different;
-		}
-
-		private static string FloatToString(float value)
-		{
-			return FloatToString((decimal)value);
-		}
-		private static string FloatToString(decimal value)
-		{
-			return value.ToString("g10", System.Globalization.CultureInfo.InvariantCulture);
 		}
 
 		/// <summary>
@@ -394,6 +380,18 @@ namespace ColorMatrixViewer
 				return true;
 			}
 			return false;
+		}
+
+		#endregion
+
+		private static string FloatToString(float value)
+		{
+			return FloatToString((decimal)value);
+		}
+
+		private static string FloatToString(decimal value)
+		{
+			return value.ToString("g10", System.Globalization.CultureInfo.InvariantCulture);
 		}
 
 	}
