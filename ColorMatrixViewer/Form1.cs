@@ -27,11 +27,6 @@ namespace ColorMatrixViewer
 			splitContainer1.SplitterDistance = splitContainer1.Height - 96;
 		}
 
-		void matrixBox_MatrixChanged(object sender, EventArgs e)
-		{
-			ApplyMatrix();
-		}
-
 		private void ApplyMatrix()
 		{
 			var finalMatrix = new float[5, 5];
@@ -72,6 +67,47 @@ namespace ColorMatrixViewer
 			}
 		}
 
+		private void loadTheDefaultImageToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			imageDiff1.LoadDefaultImage();
+			ApplyMatrix();
+		}
+
+		void matrixBox_MatrixChanged(object sender, EventArgs e)
+		{
+			ApplyMatrix();
+		}
+
+		private void showResultMatrixBtn_Click(object sender, EventArgs e)
+		{
+			splitContainer1.Panel2Collapsed = !splitContainer1.Panel2Collapsed;
+			if (splitContainer1.Panel2Collapsed)
+			{
+				showResultMatrixBtn.Text = "Show result matrix";
+			}
+			else
+			{
+				showResultMatrixBtn.Text = "Hide result matrix";
+			}
+		}
+
+		private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var resultString = Util.MatrixToString(resultMatrixBox.Matrix);
+			Clipboard.SetText(resultString);
+		}
+
+		private void splitContainer1_Panel2_MouseClick(object sender, MouseEventArgs e)
+		{
+			//triggers the context menu when clicking on the disabled result matrix
+			if (e.Button == System.Windows.Forms.MouseButtons.Right)
+			{
+				resultMatrixContextMenu.Show(splitContainer1.Panel2, e.Location);
+			}
+		}
+
+		#region Add/Remove/Scroll matrix boxes logic
+
 		private void AddMatrixBtn_Click(object sender, EventArgs e)
 		{
 			AddMatrixBox();
@@ -90,12 +126,6 @@ namespace ColorMatrixViewer
 			tableLayoutPanel1.Controls.Add(newMatrix);
 			RefreshScrollBar();
 			return newMatrix;
-		}
-
-		void newMatrix_GripMouseDown(object sender, MouseEventArgs e)
-		{
-			var cast = (InListMatrixBox)sender;
-			cast.DoDragDrop(cast, DragDropEffects.Move);
 		}
 
 		void newMatrix_RemoveButtonClicked(object sender, EventArgs e)
@@ -142,31 +172,26 @@ namespace ColorMatrixViewer
 			RefreshScrollBar();
 		}
 
-		private void loadTheDefaultImageToolStripMenuItem_Click(object sender, EventArgs e)
+		private void ClearMatricesBtn_Click(object sender, EventArgs e)
 		{
-			imageDiff1.LoadDefaultImage();
-			ApplyMatrix();
-		}
-
-		private void showResultMatrixBtn_Click(object sender, EventArgs e)
-		{
-			splitContainer1.Panel2Collapsed = !splitContainer1.Panel2Collapsed;
-			if (splitContainer1.Panel2Collapsed)
+			if (MessageBox.Show("Remove all the matrices in the list?", "Please confirm...", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
 			{
-				showResultMatrixBtn.Text = "Show result matrix";
-			}
-			else
-			{
-				showResultMatrixBtn.Text = "Hide result matrix";
+				while (tableLayoutPanel1.Controls.Count > 1)
+				{
+					RemoveMatrixBox(refreshUI: false);
+				}
+				RemoveMatrixBox(refreshUI: true);
 			}
 		}
 
-		private void splitContainer1_Panel2_MouseClick(object sender, MouseEventArgs e)
+		#endregion
+
+		#region Drag and Drop logic
+
+		void newMatrix_GripMouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == System.Windows.Forms.MouseButtons.Right)
-			{
-				resultMatrixContextMenu.Show(splitContainer1.Panel2, e.Location);
-			}
+			var cast = (InListMatrixBox)sender;
+			cast.DoDragDrop(cast, DragDropEffects.Move);
 		}
 
 		private InListMatrixBox RefreshDragDropMatrix(DragEventArgs e)
@@ -259,23 +284,7 @@ namespace ColorMatrixViewer
 			g.Clear(tableLayoutPanel1.BackColor);
 		}
 
-		private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var resultString = Util.MatrixToString(resultMatrixBox.Matrix);
-			Clipboard.SetText(resultString);
-		}
-
-		private void ClearMatricesBtn_Click(object sender, EventArgs e)
-		{
-			if (MessageBox.Show("Remove all the matrices in the list?", "Please confirm...", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
-			{
-				while (tableLayoutPanel1.Controls.Count > 1)
-				{
-					RemoveMatrixBox(refreshUI: false);
-				}
-				RemoveMatrixBox(refreshUI: true);
-			}
-		}
+		#endregion
 
 	}
 }
