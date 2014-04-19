@@ -55,16 +55,21 @@ namespace ColorMatrixViewer
 
 		public Rectangle ActualImageLocation { get; private set; }
 
+		private bool mouseDownHappened = false;
+
 		public ImageDiff()
 			: base()
 		{
 			this.SetStyle(ControlStyles.ResizeRedraw, true);
 			this.DoubleBuffered = true;
 			this.SplitterPosition = .5;
+			this.MouseUp += (o, e) => mouseDownHappened = false;
+			this.MouseDown += (o, e) => mouseDownHappened = true;
 			this.MouseDown += ImageDiff_MouseMove;
 			this.MouseMove += ImageDiff_MouseMove;
 			LoadDefaultImage();
 		}
+
 
 		public void LoadDefaultImage()
 		{
@@ -159,6 +164,9 @@ namespace ColorMatrixViewer
 
 		void ImageDiff_MouseMove(object sender, MouseEventArgs e)
 		{
+			// do not continue if the initial mouse down did not happen on the control.
+			// prevent incorrect separator moves when maximizing the window
+			if (!mouseDownHappened) return;
 			if (e.Button == System.Windows.Forms.MouseButtons.Left)
 			{
 				double x = e.X;//, y = e.Y;
