@@ -47,10 +47,6 @@ namespace ColorMatrixViewer
 
 		//magic numbers, from trial and error...
 		protected override Size DefaultSize { get { return new Size(238, 88); } }
-		protected override Size DefaultMaximumSize { get { return DefaultSize; } }
-		protected override Size DefaultMinimumSize { get { return DefaultSize; } }
-		public override Size MaximumSize { get { return DefaultSize; } }
-		public override Size MinimumSize { get { return DefaultSize; } }
 
 		#region Undo/Redo declarations
 
